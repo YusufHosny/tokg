@@ -1,16 +1,17 @@
 # ABOUTME: Seed/bootstrap tests: canonical topics and owners, org-wide authorities, speaker
 # ABOUTME: attribution restricted to participants, bots never owning or asserting, and record mode.
-from datetime import datetime
+from datetime import datetime, timedelta
 from pathlib import Path
 
 import pytest
-from conftest import NOW, LUMIVIA, make_graph, rule
+from conftest import NOW, FOO, make_graph, rule
 
-from tokg.extract import ClaimDraft, EntityMention
-from tokg.models import MeetingSource
+from tokg.extract import MAX_KNOWN_ENTITIES, ClaimDraft, EntityMention, get_user_prompt
+from tokg.models import MeetingSource, Node
 from tokg.rig import Rig
 from tokg.schema import Schema
 from tokg.seed import Seed
+from tokg.store import MemoryStore
 
 SEED = Seed.model_validate({
   "people": [
@@ -118,7 +119,49 @@ def test_record_then_replay(schema, tmp_path: Path):
 
 
 def test_example_seed_matches_example_schema():
-  g = Rig().graph(Schema.from_yaml(LUMIVIA / "schema.yaml"), seed=Seed.from_yaml(LUMIVIA / "seed.yaml"))
-  assert g.owner_of("policy:hire-non-eu") == "person:sophie-claes-lumivia-be"
+  g = Rig().graph(Schema.from_yaml(FOO / "schema.yaml"), seed=Seed.from_yaml(FOO / "seed.yaml"))
+  assert g.owner_of("policy:hire-non-eu") == "person:sophie-claes-foo-be"
   assert g.owner_of("policy:sick-leave-certificate") == "person:marc-dubois-sdworx-com"
-  assert g.owner_of("policy:hardware-purchasing") == "person:tom-verbeke-lumivia-be"
+  assert g.owner_of("policy:hardware-purchasing") == "person:tom-verbeke-foo-be"
+
+
+def test_display_name_cannot_impersonate_a_person(schema):
+  said = rule("no note on day 1").model_copy(update={"asserted_by": "Olga Owner"})
+  g = graph(schema, {"s:old": [rule("48h")], "s:fake": [rule("no note on day 1")], "m:1": [said]})
+  g.ingest([src("s:old", "olga@corp.example", "2019-01-01"),
+            src("s:fake", "Olga Owner <olga@evil.example>", "2023-01-01"),
+            src("m:1", "elise@corp.example", "2023-02-01", ["Olga Owner <olga@corp.example>"])])
+  fake = g.store.get_fact("s:fake:0")
+  assert fake.asserted_by == "person:olga-evil-example" and fake.status == "pending"
+  assert g.store.get_node(OLGA).aliases == ["olga@corp.example"]
+  assert g.store.get_fact("m:1:0").asserted_by == ELISE
+  assert g._find_person("Olga Owner").id == OLGA and g._find_person("Olga Owner", by_name=False) is None
+  assert g._find_person("Olga Owner <nobody@corp.example>") is None
+
+
+def test_bare_name_owner_never_resolves_to_a_known_person(schema):
+  g = graph(schema, {"s:1": [ClaimDraft(kind="ownership", subject=EntityMention(type="Policy", name="Expenses"),
+                                        owner="olga-corp-example")]})
+  g.ingest([src("s:1", "elise@corp.example", "2023-01-01")])
+  assert g.owner_of("policy:expenses") == "person:olga-corp-example-0"
+
+
+def test_known_entities_prompt_keeps_seeded_topics_and_is_capped(schema):
+  g = graph(schema, {})
+  ticks = iter(range(MAX_KNOWN_ENTITIES + 50))
+  g.clock = lambda: NOW + timedelta(seconds=next(ticks))
+  for i in range(MAX_KNOWN_ENTITIES + 50):
+    g._ensure_node(EntityMention(type="Case", name=f"Case {i}"))
+  known = g._known_nodes()
+  assert known[0].id == POLICY and known[1].name == f"Case {MAX_KNOWN_ENTITIES + 49}"
+  prompt = get_user_prompt(src("s:1", "olga@corp.example", "2023-01-01"), known)
+  assert prompt.count("\n- ") == MAX_KNOWN_ENTITIES and '"Sick note"' in prompt
+
+
+def test_bootstrap_adopts_a_squatted_person_id(schema):
+  store = MemoryStore()
+  store.put_node(Node(id=OLGA, type="Person", name="squatter"))
+  g = make_graph(schema, Rig(), store=store, seed=SEED)
+  node = g.store.get_node(OLGA)
+  assert node.aliases == ["olga@corp.example"] and node.name == "Olga Owner"
+  assert g.owner_of(POLICY) == OLGA and g.store.get_node(f"{OLGA}-0") is None

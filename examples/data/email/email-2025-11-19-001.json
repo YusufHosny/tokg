@@ -2,9 +2,9 @@
   "id": "email-2025-11-19-001",
   "source": "email",
   "timestamp": "2025-11-19T09:10:00Z",
-  "author": "elise.peeters@lumivia.be",
+  "author": "elise.peeters@foo.be",
   "recipients": [
-    "all@lumivia.be"
+    "all@foo.be"
   ],
   "title": "Coffee machine on 2nd floor broken",
   "body": "The coffee machine on the 2nd floor is broken again. The technician comes Thursday. Use the one in the kitchen on the ground floor in the meantime."

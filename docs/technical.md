@@ -1,8 +1,8 @@
 # TOKG: technical overview
 
-TOKG (temporal ownership knowledge graph) is the engine behind Recall. It is a domain-agnostic Python library. A use case supplies a **schema** (what kinds of things exist) and **sources** (raw text). TOKG returns **views**: the knowledge that is current, owned, sourced and applicable to a given context.
+TOKG (Temporal Ownership-Grounded Knowledge Graph) is the engine behind Recall. It is a domain-agnostic Python library. A use case supplies a **schema** (what kinds of things exist) and **sources** (raw text). TOKG returns **views**: the knowledge that is current, owned, sourced and applicable to a given context.
 
-- [1. Why a temporal ownership graph](#1-why-a-temporal-ownership-graph)
+- [1. Why a temporal, ownership-grounded graph](#1-why-a-temporal-ownership-grounded-graph)
 - [2. Pipeline](#2-pipeline)
 - [3. Data model](#3-data-model)
 - [4. Resolution: how knowledge changes](#4-resolution-how-knowledge-changes)
@@ -18,7 +18,7 @@ TOKG (temporal ownership knowledge graph) is the engine behind Recall. It is a d
 
 ---
 
-## 1. Why a temporal ownership graph
+## 1. Why a temporal, ownership-grounded graph
 
 Retrieval over raw documents (search, RAG) finds text but can't answer the questions that decide whether you can act on it:
 
@@ -72,7 +72,7 @@ A discriminated union on `kind`. The shared fields are `id`, `title`, `author`, 
 | `meeting` | `attendees` | meeting summaries |
 | `wiki` | `path` | wiki pages |
 | `document` | `doc_type` | policies, work regulations, bulletins |
-| `portal` | — | tickets from the employee portal (sick-leave reports, equipment orders, hire requests) |
+| `portal` | — | tickets from the SD Worx Portal (sick-leave reports, equipment orders, hire requests) |
 | `note` | `escalation_id` | human answers and admin actions, created by TOKG itself |
 
 ### Statements and slots
@@ -172,10 +172,10 @@ Anyone else acting gets a `PermissionError`, which the API returns as `403`. An 
 
 ## 7. Schema format
 
-The demo schema, `examples/lumivia/schema.yaml` (descriptions shortened):
+The demo schema, `examples/foo/schema.yaml` (descriptions shortened):
 
 ```yaml
-name: lumivia-hr
+name: foo-hr
 owner_type: Person                  # the entity type owners are; added automatically if missing
 entities:
   - name: Policy
@@ -202,7 +202,7 @@ context:
 
 ### Seed: the human bootstrap
 
-The seed is the one-off human effort in the fixed oversight budget. `examples/lumivia/seed.yaml` declares:
+The seed is the one-off human effort in the fixed oversight budget. `examples/foo/seed.yaml` declares:
 
 ```yaml
 people_file: ../data/people.json      # people with role, external flag and owns_topics → initial owners
@@ -210,18 +210,18 @@ topics:                               # canonical nodes, so extraction attaches 
   - {key: hire_non_eu, type: Policy, name: Hiring a non-EU citizen in Belgium (single permit)}
   - {key: sick_leave_certificate, type: Policy, name: Sick leave and doctor's notes}
   - {key: hardware_purchasing, type: Policy, name: Remote office equipment and hardware purchasing}
-authorities: [laura.desmet@lumivia.be] # org-wide: Head of Operations signs the work regulations
-non_people: [meeting-bot@lumivia.be, comms@lumivia.be, all@lumivia.be, hiring-managers@lumivia.be]
+authorities: [laura.desmet@foo.be] # org-wide: Head of Operations signs the work regulations
+non_people: [meeting-bot@foo.be, comms@foo.be, all@foo.be, hiring-managers@foo.be]
 ```
 
-- **Topic node ids** follow `Node.make_id(type, key)`, e.g. `policy:hire-non-eu`. Person ids follow the email, e.g. `person:sophie-claes-lumivia-be`.
+- **Topic node ids** follow `Node.make_id(type, key)`, e.g. `policy:hire-non-eu`. Person ids follow the email, e.g. `person:sophie-claes-foo-be`.
 - **Authority.** A claim is authoritative if it is asserted by the node's owner or by an org-wide authority, or if the node has no owner. Any other change becomes pending plus an escalation to the owner.
 - **Non-people** are bot and list addresses. They can never own anything or assert a fact.
 - **Speaker attribution.** A statement in a bot-written meeting summary can be credited to the attendee who made it, but only to a real participant of that source (its author or a recipient). The meeting bot itself is never the asserter.
 
 ## 8. Sources and ingestors
 
-`Ingestor` is an abstract base with `load(path)`. The demo's mock data (`examples/data/`, fictional company Lumivia NV) is one JSON document per file, grouped by source: `email`, `meeting`, `wiki` and `portal` (tickets written by the mock employee portal in `examples/dummy-app/`). People and initial owners come from `people.json` through the seed (§7). Three file formats are supported:
+`Ingestor` is an abstract base with `load(path)`. The demo's mock data (`examples/data/`, fictional company Foo BV) is one JSON document per file, grouped by source: `email`, `meeting`, `wiki` and `portal` (tickets written by the mock SD Worx employee portal in `examples/sdworx-portal/`). People and initial owners come from `people.json` through the seed (§7). Three file formats are supported:
 
 - **`JsonIngestor`** reads one JSON object per file: `{id, source, timestamp, author, recipients, title, body}`, where `source` is the kind and `body` the content. Top-level arrays, such as `people.json`, are skipped.
 - **`EmailIngestor`** reads standard `.eml` files via the stdlib `email` parser. The id is `email:<stem>`, `From` is the author, `Date` the timestamp, and `To` and `Cc` the recipients.
@@ -266,7 +266,7 @@ answers:       # exact question → Answer (others use TemplateAnswerer)
   "An employee called in sick for just today. …": {answer: "…", contact_ids: [person:jan-peeters-sdworx-example]}
 ```
 
-Rigs don't have to be written by hand. `--record PATH` runs live and writes every extraction, decision and answer into a rig file, which `--rig PATH` then replays exactly. The demo rig, `examples/lumivia/rig.yaml`, is recorded this way. The two flags can't be combined.
+Rigs don't have to be written by hand. `--record PATH` runs live and writes every extraction, decision and answer into a rig file, which `--rig PATH` then replays exactly. The demo rig, `examples/foo/rig.yaml`, is recorded this way. The two flags can't be combined.
 
 Scripting decisions ahead of time works because claim ids are deterministic. Rigged runs still go through schema validation and ownership enforcement, so a rig cannot demo something the real system would refuse.
 
@@ -300,6 +300,14 @@ Every dependency has a working default: `MemoryStore`, `LLMExtractor`, `RuleReso
 
 Error mapping: `KeyError`→404, `PermissionError`→403, `ValueError`→409. Mutations are serialised with a lock and trigger a snapshot save.
 
+**Web app.** `tokg serve` also serves the Recall web app, a single static page (`src/tokg/web/`) mounted at `/app/`, with `/` redirecting there. It has no server-side logic of its own: every data call goes through the bearer-token API above, so it gets exactly the same authorisation as any other client.
+- **Sign-in:** paste a token, or open `/app/#token=<token>`. The token is kept in `sessionStorage` for that tab only.
+- **Ask:** the current answer with its steps and trust badges.
+- **How this answer changed:** a timeline showing superseded and pending versions.
+- **Previous cases:** each with source drill-down and the supporting quote highlighted.
+- **Ask &lt;owner&gt;:** raises a `question` escalation to the owner.
+- **Owner inbox:** approve or reject pending changes and answer questions.
+
 **MCP (FastMCP, stdio).** Tools: `search`, `view_node`, `ask`, `ask_owner`, `gaps`. The server acts as one fixed person (`--user`). Tools return errors as data instead of raising, so the calling agent can recover.
 
 **CLI (Typer).** Commands: `tokg ingest`, `ask`, `serve`, `mcp` and `token`. `--rig` switches any of them to scripted mode.
@@ -327,7 +335,8 @@ Designed with the Aikido AI code audit in mind (authentication, authorisation, I
 | Agent interface | FastMCP (Model Context Protocol, stdio) |
 | Storage | In-memory store with JSON snapshots (supported); Neo4j driver store (available, untested) |
 | CLI | Typer + Rich |
-| Demo apps | Mock employee portal (Vite + React + Tailwind) as a live source; Recall web app (in progress) |
+| Web app | Recall web app: one static page (`src/tokg/web/index.html`) served by `tokg serve` at `/app/`, calling the same bearer-token API |
+| Demo source | Mock SD Worx Portal (`examples/sdworx-portal`, Vite + React + Tailwind): employees file tickets, which become `portal` sources |
 
 ```
 src/tokg/
@@ -344,8 +353,8 @@ src/tokg/
   api/          FastAPI app, token auth
   mcp.py        FastMCP server
   cli.py        tokg CLI
-examples/data/        Lumivia NV mock sources (email, meeting, wiki, portal) + people.json + answer key
-examples/dummy-app/   mock employee portal (Vite + React); its tickets become portal sources
+examples/data/        Foo BV mock sources (email, meeting, wiki, portal) + people.json + answer key
+examples/sdworx-portal/  mock SD Worx employee portal (Vite + React); its tickets become portal sources
 tests/            LLM-free tests: pipeline, views, escalations, API auth, MCP, LLM stages (faked)
 ```
 
@@ -363,4 +372,4 @@ tests/            LLM-free tests: pipeline, views, escalations, API auth, MCP, L
 **Next product steps:**
 - live connectors (Slack/Teams, mailboxes, SharePoint) feeding `ingest_source`;
 - proactive alerts when new sources contradict owned facts;
-- a per-owner escalation inbox in the app.
+- SSO for the web app, and pushing owner inbox notifications into Slack/Teams.

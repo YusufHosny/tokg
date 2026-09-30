@@ -1,5 +1,6 @@
 # ABOUTME: Core persisted entities: nodes, sources, temporal owned facts and escalations.
 # ABOUTME: A Fact is a sourced Statement about a node, valid over [valid_from, valid_to) in a context.
+import hashlib
 import re
 from datetime import UTC, date, datetime, time
 from typing import Annotated, Literal
@@ -25,9 +26,14 @@ def _coerce_utc(value: object) -> object:
 
 UtcDatetime = Annotated[datetime, BeforeValidator(_coerce_utc)]
 
+MAX_ID = 2048
+MAX_TYPE = 128
+MAX_NAME = 1024
+MAX_ALIASES = 1000
+
 
 def slugify(text: str) -> str:
-  return re.sub(r"[^a-z0-9]+", "-", text.lower()).strip("-")
+  return re.sub(r"[^a-z0-9]+", "-", re.sub(r"['’]", "", text.lower())).strip("-")
 
 
 # ---------------------------------------------------------------------------------------------
@@ -35,20 +41,21 @@ def slugify(text: str) -> str:
 
 
 class Node(BaseModel):
-  id: str
-  type: str
-  name: str
-  aliases: list[str] = Field(default_factory=list)
+  id: str = Field(..., min_length=1, max_length=MAX_ID)
+  type: str = Field(..., min_length=1, max_length=MAX_TYPE)
+  name: str = Field(..., max_length=MAX_NAME)
+  aliases: list[str] = Field(default_factory=list, max_length=MAX_ALIASES)
   description: str | None = None
   properties: dict[str, str] = Field(default_factory=dict, description="Display metadata, e.g. role")
   created_at: UtcDatetime = Field(default_factory=utcnow)
 
   @staticmethod
   def make_id(type_: str, name: str) -> str:
-    return f"{type_.lower()}:{slugify(name)}"
+    return f"{type_.lower()}:{slugify(name) or 'h-' + hashlib.sha256(name.encode()).hexdigest()[:12]}"
 
   def matches(self, name: str) -> bool:
-    key = slugify(name)
+    if not (key := slugify(name)):
+      return bool(name.strip()) and name.casefold() in {n.casefold() for n in [self.name, *self.aliases]}
     return key == slugify(self.name) or any(key == slugify(a) for a in self.aliases)
 
 
@@ -57,9 +64,9 @@ class Node(BaseModel):
 
 
 class SourceCommon(BaseModel):
-  id: str
+  id: str = Field(..., min_length=1, max_length=MAX_ID)
   title: str
-  author: str = Field(..., description="'Name <email>', a bare email/name, or a person node id")
+  author: str = Field(..., max_length=MAX_NAME, description="'Name <email>', a bare email/name, or a person node id")
   timestamp: UtcDatetime
   content: str
   recipients: list[str] = Field(default_factory=list, description="Addressees / attendees")
@@ -208,10 +215,10 @@ class Fact(BaseModel):
   def is_current(self, as_of: datetime) -> bool:
     return self.status == "active" and self.valid_at(as_of)
 
-  # a fact applies when every dimension it is scoped to matches the query context;
-  # an unscoped fact applies everywhere
+  # a fact applies unless the query pins one of its dimensions to a different value; dimensions
+  # the query leaves open match anything (extracted scopes are often more specific than questions)
   def applies_to(self, context: dict[str, str]) -> bool:
-    return all(context.get(k) == v for k, v in self.context.items())
+    return all(context.get(k, v) == v for k, v in self.context.items())
 
 
 # ---------------------------------------------------------------------------------------------

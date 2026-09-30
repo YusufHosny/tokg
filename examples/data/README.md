@@ -1,6 +1,6 @@
-# Mock data: Lumivia NV
+# Mock data: Foo BV
 
-Lumivia NV is a fictional software company in Ghent, Belgium, with 46 employees. SD Worx is its external payroll provider.
+Foo BV is a fictional software company in Ghent, Belgium, with 46 employees. SD Worx is its external payroll provider.
 
 There is one JSON file per document, grouped by source (`email/`, `meeting/`, `wiki/`, `portal/`). Every file uses the same format:
 
@@ -9,23 +9,23 @@ There is one JSON file per document, grouped by source (`email/`, `meeting/`, `w
   "id": "email-2026-03-09-001",
   "source": "email | meeting | wiki | portal",
   "timestamp": "2026-03-09T09:00:00Z",
-  "author": "laura.desmet@lumivia.be",
-  "recipients": ["all@lumivia.be"],
+  "author": "laura.desmet@foo.be",
+  "recipients": ["all@foo.be"],
   "title": "...",
   "body": "..."
 }
 ```
 
-Wiki pages have `recipients: []`. Meeting summaries are authored by `meeting-bot@lumivia.be`. Email replies are quoted inside `body`.
+Wiki pages have `recipients: []`. Meeting summaries are authored by `meeting-bot@foo.be`. Email replies are quoted inside `body`.
 
-Files in `portal/` are tickets from the employee portal (`examples/dummy-app`). New tickets submitted in the app are written to that folder.
+Files in `portal/` are tickets from the employee portal (`examples/sdworx-portal`). New tickets submitted in the app are written to that folder.
 
 ## Cast
 
 | Person | Role | Owns |
 |---|---|---|
 | Sophie Claes | HR & Immigration Lead | Non-EU hiring / single permit |
-| Marc Dubois (SD Worx) | Payroll Consultant for Lumivia | Work regulations, sick leave |
+| Marc Dubois (SD Worx) | Payroll Consultant for Foo | Work regulations, sick leave |
 | Tom Verbeke | IT Asset Manager | Hardware purchases, exceptions |
 | Laura De Smet | Head of Operations | Signs work regulations, sends policy emails |
 | Pieter Janssens | Engineering hiring manager | - |
@@ -59,7 +59,7 @@ Query: "An employee called in sick for just today. Do they need to upload a doct
 |---|---|
 | `wiki-2019-01-15-001` | **Old state.** Art. 7.3: certificate within 48h for every absence |
 | `email-2022-11-30-001` | SD Worx legal bulletin: first-day exemption, companies under 50 can opt out |
-| `meeting-2023-01-17-001` | Decision: Lumivia does **not** opt out |
+| `meeting-2023-01-17-001` | Decision: Foo does **not** opt out |
 | `wiki-2023-03-01-001` | **New state.** Amendment no. 3 replaces Art. 7.3; Marc is the contact |
 | `email-2026-01-20-001` | **Trap.** Elise (not an owner) says a note is always needed |
 | `portal-2025-11-04-001` | Example: one-day absence without a note |
@@ -90,7 +90,7 @@ Expected answer: no, order through the IT procurement portal. Exceptions go to *
 | `sick_leave_certificate` | v1 from `wiki-2019-01-15-001` (superseded), v2 from `wiki-2023-03-01-001` (current, `valid_from` 2023-03-01) | Elise's email `email-2026-01-20-001` | Nina's one-day absence | Marc Dubois (external) |
 | `hardware_purchasing` | v1 from `wiki-2024-02-12-001` (superseded), v2 from `meeting-2026-03-05-001` / `email-2026-03-09-001` (current, `valid_from` 2026-03-16) | Pieter's reply in `email-2026-04-14-001`, Jonas's rumour `email-2026-05-06-001` | Nina's keyboard order | Tom Verbeke |
 
-Owners are seeded in `people.json` (`owns_topics`). Meeting summaries are authored by `meeting-bot@lumivia.be` and the newsletter by `comms@lumivia.be`. Neither is a person, so extraction must never use them as an owner. Take the owner from the content, or fall back to the bootstrap owner.
+Owners are seeded in `people.json` (`owns_topics`). Meeting summaries are authored by `meeting-bot@foo.be` and the newsletter by `comms@foo.be`. Neither is a person, so extraction must never use them as an owner. Take the owner from the content, or fall back to the bootstrap owner.
 
 Run `python examples/validate_data.py` (needs pydantic) to check every file against `SourceDocument`.
 

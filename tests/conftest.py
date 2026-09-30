@@ -13,7 +13,7 @@ from tokg.schema import Schema
 
 EXAMPLES = Path(__file__).parent.parent / "examples"
 DATA = EXAMPLES / "data"
-LUMIVIA = EXAMPLES / "lumivia"
+FOO = EXAMPLES / "foo"
 NOW = datetime(2026, 9, 30, tzinfo=UTC)
 
 OWNER = "Olga Owner <olga@corp.example>"

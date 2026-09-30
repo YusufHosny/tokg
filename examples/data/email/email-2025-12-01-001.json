@@ -2,9 +2,9 @@
   "id": "email-2025-12-01-001",
   "source": "email",
   "timestamp": "2025-12-01T10:00:00Z",
-  "author": "laura.desmet@lumivia.be",
+  "author": "laura.desmet@foo.be",
   "recipients": [
-    "all@lumivia.be"
+    "all@foo.be"
   ],
   "title": "Save the date: Holiday party 19 December",
   "body": "Save the date! Our holiday party is on Friday 19 December from 18:00 at the office. Food, drinks and a quiz. Partners welcome. More info soon.\nLaura"

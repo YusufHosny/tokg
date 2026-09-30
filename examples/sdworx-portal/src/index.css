@@ -1,0 +1,17 @@
+@import "tailwindcss";
+
+/* SD Worx-style palette (approximated from the public brand: navy wordmark, red/orange/blue bars) */
+@theme {
+  --color-sdx-navy: #0b1f3f;
+  --color-sdx-navy-2: #16305c;
+  --color-sdx-red: #e4032e;
+  --color-sdx-red-dark: #b8001f;
+  --color-sdx-orange: #f39200;
+  --color-sdx-blue: #0098d8;
+  --color-sdx-sand: #f5f3ef;
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+body {
+  background: var(--color-sdx-sand);
+}

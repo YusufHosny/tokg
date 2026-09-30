@@ -1,14 +1,14 @@
 [
-  {"id": "sophie.claes@lumivia.be", "name": "Sophie Claes", "role": "HR & Immigration Lead", "external": false, "owns_topics": ["hire_non_eu"]},
+  {"id": "sophie.claes@foo.be", "name": "Sophie Claes", "role": "HR & Immigration Lead", "external": false, "owns_topics": ["hire_non_eu"]},
   {"id": "marc.dubois@sdworx.com", "name": "Marc Dubois", "role": "Payroll Consultant, SD Worx", "external": true, "owns_topics": ["sick_leave_certificate"]},
-  {"id": "tom.verbeke@lumivia.be", "name": "Tom Verbeke", "role": "IT Asset Manager", "external": false, "owns_topics": ["hardware_purchasing"]},
-  {"id": "laura.desmet@lumivia.be", "name": "Laura De Smet", "role": "Head of Operations", "external": false, "owns_topics": []},
-  {"id": "pieter.janssens@lumivia.be", "name": "Pieter Janssens", "role": "Engineering Manager", "external": false, "owns_topics": []},
-  {"id": "amira.haddad@lumivia.be", "name": "Amira Haddad", "role": "Sales Manager", "external": false, "owns_topics": []},
-  {"id": "elise.peeters@lumivia.be", "name": "Elise Peeters", "role": "Office Manager", "external": false, "owns_topics": []},
-  {"id": "lucas.maes@lumivia.be", "name": "Lucas Maes", "role": "Software Engineer", "external": false, "owns_topics": []},
-  {"id": "nina.wouters@lumivia.be", "name": "Nina Wouters", "role": "Product Designer", "external": false, "owns_topics": []},
-  {"id": "jonas.mertens@lumivia.be", "name": "Jonas Mertens", "role": "Account Executive", "external": false, "owns_topics": []},
-  {"id": "ravi.kumar@lumivia.be", "name": "Ravi Kumar", "role": "Backend Engineer", "external": false, "owns_topics": []},
-  {"id": "camila.souza@lumivia.be", "name": "Camila Souza", "role": "Account Executive", "external": false, "owns_topics": []}
+  {"id": "tom.verbeke@foo.be", "name": "Tom Verbeke", "role": "IT Asset Manager", "external": false, "owns_topics": ["hardware_purchasing"]},
+  {"id": "laura.desmet@foo.be", "name": "Laura De Smet", "role": "Head of Operations", "external": false, "owns_topics": []},
+  {"id": "pieter.janssens@foo.be", "name": "Pieter Janssens", "role": "Engineering Manager", "external": false, "owns_topics": []},
+  {"id": "amira.haddad@foo.be", "name": "Amira Haddad", "role": "Sales Manager", "external": false, "owns_topics": []},
+  {"id": "elise.peeters@foo.be", "name": "Elise Peeters", "role": "Office Manager", "external": false, "owns_topics": []},
+  {"id": "lucas.maes@foo.be", "name": "Lucas Maes", "role": "Software Engineer", "external": false, "owns_topics": []},
+  {"id": "nina.wouters@foo.be", "name": "Nina Wouters", "role": "Product Designer", "external": false, "owns_topics": []},
+  {"id": "jonas.mertens@foo.be", "name": "Jonas Mertens", "role": "Account Executive", "external": false, "owns_topics": []},
+  {"id": "ravi.kumar@foo.be", "name": "Ravi Kumar", "role": "Backend Engineer", "external": false, "owns_topics": []},
+  {"id": "camila.souza@foo.be", "name": "Camila Souza", "role": "Account Executive", "external": false, "owns_topics": []}
 ]

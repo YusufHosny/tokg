@@ -2,12 +2,12 @@
   "id": "meeting-2023-01-17-001",
   "source": "meeting",
   "timestamp": "2023-01-17T14:00:00Z",
-  "author": "meeting-bot@lumivia.be",
+  "author": "meeting-bot@foo.be",
   "recipients": [
-    "laura.desmet@lumivia.be",
-    "sophie.claes@lumivia.be",
+    "laura.desmet@foo.be",
+    "sophie.claes@foo.be",
     "marc.dubois@sdworx.com"
   ],
   "title": "Management meeting - Work Regulations update (AI summary)",
-  "body": "Meeting summary (auto-generated)\nAttendees: Laura De Smet, Sophie Claes, Marc Dubois (SD Worx, joined remotely)\n\nThe meeting focused on the SD Worx bulletin about sick leave certificates. Laura noted that requiring a doctor's visit for a single day of illness creates unnecessary burden for employees and doctors. Sophie agreed and said that sick leave abuse has not been an issue at Lumivia.\n\nDecision: Lumivia will NOT opt out. The first-day exemption will be adopted (maximum 3 times per calendar year).\n\nAction items\n- Marc (SD Worx) drafts amendment no. 3 to Article 7.3 of the Work Regulations.\n- Laura signs the amendment together with the employee representatives.\n- Sophie updates the absence form in the employee portal."
+  "body": "Meeting summary (auto-generated)\nAttendees: Laura De Smet, Sophie Claes, Marc Dubois (SD Worx, joined remotely)\n\nThe meeting focused on the SD Worx bulletin about sick leave certificates. Laura noted that requiring a doctor's visit for a single day of illness creates unnecessary burden for employees and doctors. Sophie agreed and said that sick leave abuse has not been an issue at Foo.\n\nDecision: Foo will NOT opt out. The first-day exemption will be adopted (maximum 3 times per calendar year).\n\nAction items\n- Marc (SD Worx) drafts amendment no. 3 to Article 7.3 of the Work Regulations.\n- Laura signs the amendment together with the employee representatives.\n- Sophie updates the absence form in the employee portal."
 }

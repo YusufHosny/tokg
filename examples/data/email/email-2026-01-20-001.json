@@ -2,9 +2,9 @@
   "id": "email-2026-01-20-001",
   "source": "email",
   "timestamp": "2026-01-20T08:15:00Z",
-  "author": "elise.peeters@lumivia.be",
+  "author": "elise.peeters@foo.be",
   "recipients": [
-    "all@lumivia.be"
+    "all@foo.be"
   ],
   "title": "Reminder: doctor's notes!!",
   "body": "Hi everyone,\n\nQuick reminder since a few people forgot last month: we are a small company so we ALWAYS need a doctor's note within 48 hours, even if you are only sick for one day. Please upload it in the portal.\n\nThanks!\nElise"

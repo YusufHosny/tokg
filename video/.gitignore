@@ -1,0 +1,15 @@
+# local API token for recording the demo
+demo/.token
+demo/tokens.yaml
+# generated
+demo/*.snapshot.json
+demo/answers.json
+audio/*.wav
+out/
+cards/
+__pycache__/
+# one-off patches and the superseded ffmpeg-only draft pipeline
+patch_*.py
+fix_cards.py
+filter*.txt
+subs*.srt

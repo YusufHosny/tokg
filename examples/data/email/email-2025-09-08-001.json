@@ -2,9 +2,9 @@
   "id": "email-2025-09-08-001",
   "source": "email",
   "timestamp": "2025-09-08T07:30:00Z",
-  "author": "elise.peeters@lumivia.be",
+  "author": "elise.peeters@foo.be",
   "recipients": [
-    "all@lumivia.be"
+    "all@foo.be"
   ],
   "title": "Parking garage closed Monday-Wednesday",
   "body": "Hi everyone, the parking garage under the building will be closed from Monday to Wednesday for floor repairs. Please use the Sint-Pietersplein parking or come by bike. The bike shed stays open.\nElise"

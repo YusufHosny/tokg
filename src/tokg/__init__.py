@@ -1,4 +1,4 @@
-# ABOUTME: tokg — temporal ownership knowledge graph. Domain-agnostic core: plug in a Schema,
+# ABOUTME: tokg — TOKG, the Temporal Ownership-Grounded Knowledge Graph. Domain-agnostic core: plug in a Schema,
 # ABOUTME: ingest sources, and query current, owned, sourced knowledge in context.
 from tokg.answer import Answerer, LLMAnswerer, TemplateAnswerer
 from tokg.extract import ClaimDraft, EntityMention, Extractor, LLMExtractor

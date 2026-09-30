@@ -1,0 +1,40 @@
+VOICE-OVER LINES: demo video (total under 3:00)
+
+Please record 4 separate files (01_hook, 02_product, 03_tech, 04_business), WAV at 48 kHz, with about 1 s of silence at the start and end.
+Pace: about 150 words per minute. "/" = short pause, "//" = longer beat.
+Timestamps are the target start/end of each line in the final video. Close is fine; we fit the visuals to your audio.
+Pronunciation: TOKG = "T-O-K-G" · SD Worx = "S-D Works" · MCP = "M-C-P" · Neo4j = "Neo-four-J"
+Recall = product name (say it plainly: "Recall")
+
+── 01_hook: deadpan, meme-style, pauses are part of the joke (0:00–0:30) ──
+[0:00–0:03] This is Bob.
+[0:03–0:07] Bob is a hiring manager at a Belgian tech company.
+[0:07–0:11] Bob wants to hire a developer from Nigeria.
+[0:11–0:21] The wiki is from 2023. / The AI assistant finds three versions of the process. / The real one is buried in a meeting summary. / And nobody knows who owns it.
+[0:21–0:22] (silence)
+[0:22–0:25] Don't be like Bob.
+[0:25–0:30] Bob went crazy.
+
+── 02_product: upbeat, confident (0:30–1:00) ──
+[0:30–0:33] This time, Bob asks Recall.
+[0:33–0:38] He gets the current process, / the new online platform, not the 2023 wiki,
+[0:38–0:42] Camila's hire from last year, with the emails behind it,
+[0:42–0:47] and Sophie, the one person who owns the process.
+[0:47–0:53] Nina learns a single sick day needs no doctor's note, / confirmed by Marc at SD Worx.
+[0:53–1:00] And Lucas learns the old Amazon budget is gone, / and orders his monitor through the new IT portal.
+
+── 03_tech: clear, explanatory (1:00–2:00) ──
+[1:00–1:06] Under the hood is TOKG: / a temporal ownership-grounded knowledge graph.
+[1:06–1:16] Companies now produce more text than anyone can read. / Search finds everything, / but can't tell what's current, / what applies to you, / or whose word counts.
+[1:16–1:24] Step one: ingest. / Emails, meeting notes, wiki pages and documents become facts, / shaped by a domain schema.
+[1:24–1:38] Step two: resolve. / Every new fact is checked against the graph. / It confirms what's known, / supersedes an older version while keeping the history, / or, if a non-owner changes a rule, / goes to the owner for approval.
+[1:38–1:46] Every fact carries three things: / when it's valid, / who owns it, / and the exact quote it came from.
+[1:46–1:56] Step three: serve. / FastAPI powers the app, / and an M-C-P server lets any AI agent query the graph and cite its sources. / It runs in memory for zero setup, / or on Neo4j.
+[1:56–2:00] Answers you can trust, / and a person to ask when the documents run out.
+
+── 04_business: confident, slightly slower on the numbers (2:00–2:55) ──
+[2:00–2:14] Why now? / AI made text free to produce, / but trust didn't scale with it. / Knowledge management is already a twenty-billion-dollar market, / and none of it was built for AI-generated volume.
+[2:14–2:27] We start where rules change most and mistakes cost most: / HR and payroll. / One partner like SD Worx reaches over a hundred thousand client organisations, / so every domain schema we build is reused thousands of times.
+[2:27–2:42] We sell B2B SaaS, / priced on indexed knowledge and query volume, / with private-cloud deployments for regulated customers. / The promise is a fixed oversight budget: / people set it up once and answer the occasional escalation, / and the graph keeps itself current.
+[2:42–2:50] Next come live Slack and Teams listeners, / and alerts the moment a meeting contradicts policy.
+[2:50–2:55] Recall. / Find it. / Understand it. / Trust it.

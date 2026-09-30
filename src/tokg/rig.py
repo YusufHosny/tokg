@@ -11,6 +11,7 @@ from tokg.extract import ClaimDraft, Extractor
 from tokg.graph import KnowledgeGraph
 from tokg.models import Node, Source
 from tokg.resolve import Decision, ResolutionInput, Resolver, RuleResolver
+from tokg.safeio import load_yaml, read_text, write_text_atomic
 from tokg.schema import Schema
 from tokg.store import GraphStore
 from tokg.views import Answer, NodeView
@@ -29,7 +30,7 @@ class Rig(BaseModel):
 
   @classmethod
   def from_yaml(cls, path: str | Path) -> Self:
-    return cls.model_validate(yaml.safe_load(Path(path).read_text()) or {})
+    return cls.model_validate(load_yaml(read_text(path)) or {})
 
   def extractor(self) -> "ScriptedExtractor":
     return ScriptedExtractor(self)
@@ -46,7 +47,7 @@ class Rig(BaseModel):
 
   def save(self, path: str | Path) -> None:
     data = self.model_dump(mode="json", exclude_none=True, exclude_defaults=True)
-    Path(path).write_text(yaml.safe_dump(data, sort_keys=False, allow_unicode=True, width=100))
+    write_text_atomic(path, yaml.safe_dump(data, sort_keys=False, allow_unicode=True, width=100))
 
   # wrap live stages so everything they produce is written into this rig for later replay
   def record(self, graph: KnowledgeGraph) -> KnowledgeGraph:

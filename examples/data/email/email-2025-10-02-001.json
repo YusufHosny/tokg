@@ -2,9 +2,9 @@
   "id": "email-2025-10-02-001",
   "source": "email",
   "timestamp": "2025-10-02T15:45:00Z",
-  "author": "jonas.mertens@lumivia.be",
+  "author": "jonas.mertens@foo.be",
   "recipients": [
-    "all@lumivia.be"
+    "all@foo.be"
   ],
   "title": "Visa question",
   "body": "Hi all, has anyone travelled to the US recently for a conference? I need to apply for an ESTA and I'm not sure how long it takes to get approved. Any tips appreciated!\nJonas"

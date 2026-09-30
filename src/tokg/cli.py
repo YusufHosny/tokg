@@ -1,8 +1,13 @@
 # ABOUTME: `tokg` CLI: ingest source folders, ask questions, serve the HTTP API or MCP, mint tokens.
 # ABOUTME: --rig replays a scripted run with no LLM; --record captures a live LLM run into a rig.
+import fcntl
+import os
+import stat
+from collections.abc import Iterator
+from contextlib import contextmanager
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Annotated
+from typing import Annotated, NoReturn
 
 import typer
 import yaml
@@ -14,11 +19,12 @@ from tokg.graph import KnowledgeGraph
 from tokg.ingest import load_sources
 from tokg.resolve import LLMResolver
 from tokg.rig import Rig
+from tokg.safeio import write_text_atomic
 from tokg.schema import Schema
 from tokg.seed import Seed
 from tokg.store import MemoryStore
 
-app = typer.Typer(no_args_is_help=True, help="Temporal ownership knowledge graph.")
+app = typer.Typer(no_args_is_help=True, help="TOKG: Temporal Ownership-Grounded Knowledge Graph.")
 console = Console()
 
 SchemaOpt = Annotated[Path, typer.Option("--schema", "-s", help="Domain schema YAML.")]
@@ -28,6 +34,45 @@ RigOpt = Annotated[Path | None, typer.Option("--rig", help="Rig YAML to replay a
 RecordOpt = Annotated[Path | None, typer.Option("--record", help="Rig YAML to record this live run into.")]
 LLMResolveOpt = Annotated[bool, typer.Option("--llm-resolve", help="Resolve with the LLM, not rules.")]
 ContextOpt = Annotated[list[str], typer.Option("--context", "-c", help="key=value, repeatable.")]
+MAX_CONTEXT = 16
+MAX_PERSON_ID = 256
+STORE_IN_USE = "store is in use by a running server; stop it or ingest through the API"
+STORE_LOCKED = "store is in use by another running tokg process"
+
+
+def _parse_context(pairs: list[str]) -> dict[str, str]:
+  if len(pairs) > MAX_CONTEXT:
+    raise typer.BadParameter(f"at most {MAX_CONTEXT} --context entries", param_hint="--context")
+  context = {}
+  for pair in pairs:
+    key, sep, value = pair.partition("=")
+    if not sep or not key.strip() or len(key) > 64 or len(value) > 256:
+      raise typer.BadParameter(f"expected key=value (key up to 64, value up to 256 characters), got "
+                               f"'{pair[:80]}'", param_hint="--context")
+    context[key] = value
+  return context
+
+
+@contextmanager
+def _store_lock(store: Path) -> Iterator[bool]:
+  fd = os.open(store.with_name(f"{store.name}.lock"), os.O_RDWR | os.O_CREAT | os.O_NOFOLLOW, 0o600)
+  if not stat.S_ISREG(os.fstat(fd).st_mode):
+    os.close(fd)
+    raise typer.BadParameter(f"{store.name}.lock is not a regular file")
+  try:
+    try:
+      fcntl.flock(fd, fcntl.LOCK_EX | fcntl.LOCK_NB)
+    except BlockingIOError:
+      yield False
+    else:
+      yield True
+  finally:
+    os.close(fd)
+
+
+def _fail(message: str) -> NoReturn:
+  console.print(f"[red]error:[/] {escape(message)}")
+  raise typer.Exit(1)
 
 
 @dataclass
@@ -63,29 +108,33 @@ def _session(schema: Path, store: Path, seed: Path | None, rig: Path | None = No
 def ingest(path: Annotated[Path, typer.Argument(help="File or folder of sources.")],
            schema: SchemaOpt, store: StoreOpt, seed: SeedOpt = None, rig: RigOpt = None,
            record: RecordOpt = None, llm_resolve: LLMResolveOpt = False) -> None:
-  session = _session(schema, store, seed, rig, record, llm_resolve)
-  report = session.graph.ingest(load_sources(path))
-  session.save()
+  with _store_lock(store) as locked:
+    if not locked:
+      _fail(STORE_IN_USE)
+    session = _session(schema, store, seed, rig, record, llm_resolve)
+    report = session.graph.ingest(load_sources(path))
+    session.save()
   for o in report.outcomes:
     if o.error:
       console.print(f"[yellow]skip[/] {escape(o.claim_id)}: {escape(o.error)}")
     elif o.decision:
       console.print(f"[green]{o.decision.action}[/] {escape(o.claim_id)}: {escape(o.decision.rationale)}")
-  console.print(f"[bold]{len(report.source_ids)} sources, {len(report.outcomes)} claims[/] -> {store}")
+  console.print(f"[bold]{len(report.source_ids)} sources, {len(report.outcomes)} claims[/] -> {escape(str(store))}")
 
 
 @app.command(help="Ask a question against the graph.")
 def ask(question: Annotated[str, typer.Argument(help="The question.")], schema: SchemaOpt, store: StoreOpt,
         seed: SeedOpt = None, rig: RigOpt = None, record: RecordOpt = None, context: ContextOpt = []) -> None:
+  parsed = _parse_context(context)
   session = _session(schema, store, seed, rig, record)
-  result = session.graph.ask(question, dict(c.split("=", 1) for c in context))
-  if record:
-    session.save()
+  result = session.graph.ask(question, parsed)
+  if session.record and session.rig:
+    session.rig.save(session.record)
   console.print(result.answer.answer, markup=False, highlight=False)
   for c in result.answer.caveats:
     console.print(f"[yellow]! {escape(c)}[/]")
   if result.answer.contact_ids:
-    console.print(f"[cyan]contacts:[/] {', '.join(result.answer.contact_ids)}")
+    console.print(f"[cyan]contacts:[/] {escape(', '.join(result.answer.contact_ids))}")
 
 
 @app.command(help="Serve the HTTP API.")
@@ -99,9 +148,12 @@ def serve(schema: SchemaOpt, store: StoreOpt,
 
   from tokg.api import create_app
 
-  session = _session(schema, store, seed, rig, llm_resolve=llm_resolve)
-  uvicorn.run(create_app(session.graph, TokenRegistry.from_yaml(tokens), on_change=session.save,
-                         cors_origins=cors), host=host, port=port)
+  with _store_lock(store) as locked:
+    if not locked:
+      _fail(STORE_LOCKED)
+    session = _session(schema, store, seed, rig, llm_resolve=llm_resolve)
+    uvicorn.run(create_app(session.graph, TokenRegistry.from_yaml(tokens), on_change=session.save,
+                           cors_origins=cors), host=host, port=port)
 
 
 @app.command(help="Run the MCP server over stdio, acting as one person.")
@@ -110,18 +162,25 @@ def mcp(schema: SchemaOpt, store: StoreOpt,
         seed: SeedOpt = None, rig: RigOpt = None) -> None:
   from tokg.mcp import create_mcp
 
-  create_mcp(_session(schema, store, seed, rig).graph, user).run(show_banner=False)
+  with _store_lock(store) as locked:
+    session = _session(schema, store, seed, rig)
+    create_mcp(session.graph, user, on_change=session.save if locked else None,
+               read_only=not locked).run(show_banner=False)
 
 
 @app.command(help="Mint a token and add its hash to a token registry YAML.")
-def token(person_id: Annotated[str, typer.Argument(help="Person node id, e.g. person:sophie-claes-lumivia-be")],
+def token(person_id: Annotated[str, typer.Argument(help="Person node id, e.g. person:sophie-claes-foo-be")],
           tokens: Annotated[Path, typer.Option("--tokens", help="Token registry YAML to update.")],
           role: Annotated[Role, typer.Option(help="member or admin.")] = "member") -> None:
+  if not person_id.strip() or len(person_id) > MAX_PERSON_ID or not person_id.isprintable() or "+" in person_id:
+    raise typer.BadParameter(f"must be a printable person node id of up to {MAX_PERSON_ID} characters, "
+                             "without '+'", param_hint="PERSON_ID")
   registry = TokenRegistry.from_yaml(tokens) if tokens.exists() else TokenRegistry()
   secret = new_token()
   registry.tokens[hash_token(secret)] = Principal(person_id=person_id, role=role)
-  tokens.write_text(yaml.safe_dump(registry.model_dump(mode="json"), sort_keys=False))
-  console.print(f"token for {person_id} ({role}), shown once:\n{secret}")
+  write_text_atomic(tokens, yaml.safe_dump(registry.model_dump(mode="json"), sort_keys=False))
+  console.print(f"token for {escape(person_id)} ({role}), shown once:")
+  console.print(secret, markup=False, highlight=False)
 
 
 def main() -> None:

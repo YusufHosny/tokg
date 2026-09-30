@@ -1,12 +1,14 @@
 # ABOUTME: Seed config: the bounded human bootstrap — people, canonical topic nodes and their initial
 # ABOUTME: owners, org-wide authorities, and authors that are systems (bots) rather than people.
-import json
 from email.utils import parseaddr
 from pathlib import Path
 from typing import Self
 
-import yaml
 from pydantic import AliasChoices, BaseModel, Field
+
+from tokg.safeio import load_json, load_yaml, read_text
+
+_PEOPLE_SUFFIXES = (".json", ".yaml", ".yml")
 
 
 class PersonSeed(BaseModel):
@@ -39,10 +41,19 @@ class Seed(BaseModel):
   @classmethod
   def from_yaml(cls, path: str | Path) -> Self:
     path = Path(path)
-    data = yaml.safe_load(path.read_text()) or {}
+    data = load_yaml(read_text(path)) or {}
+    if not isinstance(data, dict):
+      raise ValueError(f"{path}: seed must be a mapping")
     if people_file := data.pop("people_file", None):
+      if not isinstance(people_file, str) or Path(people_file).is_absolute():
+        raise ValueError(f"{path}: people_file must be a relative path")
       extra = path.parent / people_file
-      loaded = json.loads(extra.read_text()) if extra.suffix == ".json" else yaml.safe_load(extra.read_text())
+      if extra.suffix not in _PEOPLE_SUFFIXES:
+        raise ValueError(f"{path}: people_file must be one of {', '.join(_PEOPLE_SUFFIXES)}")
+      text = read_text(extra)
+      loaded = load_json(text) if extra.suffix == ".json" else load_yaml(text)
+      if not isinstance(loaded, list):
+        raise ValueError(f"{extra}: people_file must contain a list")
       data["people"] = [*data.get("people", []), *loaded]
     return cls.model_validate(data)
 

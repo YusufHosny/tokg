@@ -1,0 +1,480 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Recall video scenes</title>
+<link rel="stylesheet" href="../assets/base.css">
+<style>
+  html, body { width: 1920px; height: 1080px; overflow: hidden; background: #fff; }
+  .scene { position: absolute; inset: 0; display: none; overflow: hidden; }
+  .cap { position: absolute; left: 110px; right: 110px; top: 96px; text-align: center; font-weight: 800; font-size: 76px; letter-spacing: -.025em; line-height: 1.12; color: #000; }
+  .cap.white { color: #fff; }
+  .black { background: #000; }
+  .white-bg { background: #fff; }
+  svg text { font-family: "Inter", sans-serif; }
+
+  /* flood cards */
+  .doc { position: absolute; width: 380px; background: #fff; border: 2px solid #111; border-radius: 12px; padding: 12px 14px; box-shadow: 6px 6px 0 #111; font-size: 17px; line-height: 1.35; }
+  .doc .k { font-size: 12px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; margin-bottom: 4px; }
+  .doc .t { font-weight: 700; }
+  .doc .s { color: #444; font-size: 15px; margin-top: 3px; }
+  .stamp { position: absolute; font-weight: 900; color: #dc2626; border: 6px solid #dc2626; border-radius: 12px; padding: 6px 22px; font-size: 64px; transform: rotate(-8deg); background: rgba(255,255,255,.9); }
+  .counter { position: absolute; right: 90px; top: 70px; font-weight: 800; font-size: 44px; color: #dc2626; }
+
+  /* tech */
+  .tech { background: radial-gradient(1500px 800px at 50% -10%, #1e2a4a 0%, #0b1220 65%); color: #e2e8f0; }
+  .strip { position: absolute; left: 80px; right: 80px; top: 58px; display: flex; gap: 16px; align-items: center; justify-content: center; }
+  .pill { font-weight: 700; font-size: 19px; padding: 11px 16px; border-radius: 12px; border: 1.5px solid #334155; color: #94a3b8; background: rgba(15,23,42,.6); white-space: nowrap; }
+  .pill.on { color: #fff; border-color: #818cf8; background: #312e81; box-shadow: 0 0 0 6px rgba(129,140,248,.18); }
+  .arrow { color: #475569; font-size: 26px; }
+  .stage { position: absolute; left: 80px; right: 80px; top: 170px; height: 700px; }
+  .h1 { font-weight: 800; font-size: 120px; letter-spacing: -.04em; color: #fff; text-align: center; }
+  .h2 { font-weight: 600; font-size: 44px; color: #c7d2fe; text-align: center; margin-top: 8px; }
+  .chipx { position: absolute; font-weight: 650; font-size: 22px; padding: 12px 18px; border-radius: 12px; background: #1e293b; border: 1.5px solid #334155; color: #e2e8f0; white-space: nowrap; }
+  .chipx small { display: block; font-weight: 500; font-size: 16px; color: #94a3b8; margin-top: 3px; }
+  .box { position: absolute; border-radius: 18px; border: 2px solid #6366f1; background: rgba(49,46,129,.35); color: #fff; font-weight: 750; font-size: 28px; display: grid; place-items: center; text-align: center; }
+  .q { position: absolute; font-weight: 800; font-size: 46px; color: #f87171; }
+  .lbl { position: absolute; font-weight: 700; font-size: 24px; }
+  .fact { position: absolute; left: 360px; top: 90px; width: 1040px; background: #0f172a; border: 2px solid #6366f1; border-radius: 22px; padding: 34px 40px; }
+  .fact .ttl { font-size: 18px; letter-spacing: .1em; font-weight: 800; color: #a5b4fc; }
+  .fact .val { font-size: 32px; font-weight: 650; color: #fff; margin: 12px 0 26px; line-height: 1.3; }
+  .tag { display: grid; grid-template-columns: 210px 1fr; gap: 16px; align-items: baseline; padding: 14px 0; border-top: 1px solid #1e293b; font-size: 25px; }
+  .tag b { font-size: 17px; letter-spacing: .1em; text-transform: uppercase; }
+
+  /* business slides */
+  .biz { background: #f8fafc; color: #0f172a; }
+  .slide-h { position: absolute; left: 120px; top: 80px; font-size: 20px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: #4f46e5; }
+  .slide-t { position: absolute; left: 120px; right: 120px; top: 120px; font-size: 64px; font-weight: 800; letter-spacing: -.03em; line-height: 1.1; }
+  .tile { position: absolute; background: #fff; border: 1px solid #e2e8f0; border-radius: 22px; padding: 30px 34px; box-shadow: 0 10px 40px rgba(15,23,42,.06); }
+  .tile .n { font-size: 64px; font-weight: 800; letter-spacing: -.03em; color: #4f46e5; }
+  .tile .d { font-size: 24px; color: #334155; margin-top: 6px; line-height: 1.35; }
+  .foot { position: absolute; left: 120px; right: 120px; top: 846px; font-size: 15px; color: #94a3b8; }
+  table.plan { position: absolute; left: 120px; top: 480px; width: 1680px; border-collapse: collapse; font-size: 24px; }
+  table.plan th { text-align: left; font-size: 16px; letter-spacing: .1em; text-transform: uppercase; color: #64748b; padding: 10px 14px; border-bottom: 2px solid #e2e8f0; }
+  table.plan td { padding: 11px 14px; border-bottom: 1px solid #e2e8f0; }
+  table.plan td.num { font-weight: 750; }
+  .end { background: radial-gradient(1400px 800px at 50% 0%, #1e2a4a 0%, #0b1220 65%); color: #fff; }
+</style>
+</head>
+<body>
+
+<!-- ============================== HOOK ============================== -->
+<div class="scene white-bg" id="hook">
+  <div class="cap" id="hookcap"></div>
+  <svg id="bobsvg" width="1920" height="1080" style="position:absolute;inset:0">
+    <!-- desk + laptop -->
+    <g id="desk" stroke="#000" stroke-width="7" fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="820" y1="700" x2="1330" y2="700"/><line x1="860" y1="700" x2="860" y2="860"/><line x1="1290" y1="700" x2="1290" y2="860"/>
+      <path d="M960 700 L1000 540 L1230 540 L1190 700 Z" fill="#fff"/>
+      <line x1="930" y1="700" x2="1200" y2="700" stroke-width="10"/>
+    </g>
+    <clipPath id="lapclip"><path d="M1004 548 L1222 548 L1186 692 L968 692 Z"/></clipPath><g id="lapscreen" clip-path="url(#lapclip)"></g>
+    <!-- bob -->
+    <g id="bob" stroke="#000" stroke-width="7" fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <g id="bobhead"><circle cx="700" cy="440" r="52" fill="#fff"/>
+        <g id="face"><circle cx="684" cy="432" r="5" fill="#000" stroke="none"/><circle cx="716" cy="432" r="5" fill="#000" stroke="none"/><path id="mouth" d="M684 460 Q700 470 716 460"/></g>
+      </g>
+      <line x1="700" y1="492" x2="700" y2="660"/>
+      <path id="armR" d="M700 540 L800 610 L900 640"/>
+      <path id="armL" d="M700 540 L620 600 L600 660"/>
+      <path d="M700 660 L780 700 L780 860"/><path d="M700 660 L740 720 L730 860"/>
+      <line x1="640" y1="680" x2="800" y2="680" stroke-width="6"/>
+    </g>
+    <g id="badge" style="opacity:0">
+      <rect x="470" y="300" width="330" height="58" rx="12" fill="#000"/>
+      <text x="635" y="338" text-anchor="middle" fill="#fff" font-size="26" font-weight="800" letter-spacing="2">HIRING MANAGER</text>
+      <rect x="810" y="306" width="22" height="46" fill="#000"/><rect x="832" y="306" width="22" height="46" fill="#fcd116"/><rect x="854" y="306" width="22" height="46" fill="#ef3340"/>
+    </g>
+  </svg>
+  <div id="flood"></div>
+  <div class="counter" id="counter" style="display:none"></div>
+  <div class="stamp" id="stamp" style="left:1170px;top:640px;display:none">OWNER: ???</div>
+  <div class="stamp" id="wikistamp" style="left:230px;top:250px;display:none;font-size:52px">WIKI: LAST EDITED 2019</div>
+</div>
+
+<div class="scene black" id="dont"><div class="cap white" style="top:420px;font-size:110px" id="dontcap">Don't be like Bob.</div></div>
+
+<div class="scene white-bg" id="crazy">
+  <div class="cap" id="crazycap">Bob went crazy.</div>
+  <svg width="1920" height="1080" style="position:absolute;inset:0">
+    <g stroke="#000" stroke-width="7" fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <!-- bed -->
+      <rect x="560" y="600" width="760" height="70" rx="10" fill="#fff"/>
+      <line x1="560" y1="560" x2="560" y2="820"/><line x1="1320" y1="630" x2="1320" y2="820"/>
+      <!-- bob lying -->
+      <circle cx="640" cy="560" r="46" fill="#fff"/>
+      <path d="M620 548 l14 14 m0 -14 l-14 14 M650 548 l14 14 m0 -14 l-14 14" stroke-width="5"/>
+      <path d="M622 584 q18 -10 36 0" stroke-width="5"/>
+      <path d="M600 520 q40 -30 80 0" stroke-width="10" stroke="#e11d48"/>
+      <path d="M690 590 L1200 590" stroke-width="7"/>
+      <rect x="720" y="560" width="520" height="44" rx="14" fill="#e0f2fe" stroke-width="5"/>
+      <!-- monitor -->
+      <rect x="1400" y="380" width="260" height="170" rx="14" fill="#000"/>
+      <line x1="1530" y1="550" x2="1530" y2="820"/>
+    </g>
+    <polyline id="ecg" fill="none" stroke="#22c55e" stroke-width="6" stroke-linejoin="round" stroke-linecap="round"/>
+    <g id="zz" font-weight="800" font-size="44" fill="#000"></g>
+  </svg>
+</div>
+
+<div class="scene white-bg" id="again">
+  <div class="cap">This time, Bob asks Recall.</div>
+  <svg width="1920" height="1080" style="position:absolute;inset:0">
+    <g stroke="#000" stroke-width="7" fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="820" y1="700" x2="1330" y2="700"/><line x1="860" y1="700" x2="860" y2="860"/><line x1="1290" y1="700" x2="1290" y2="860"/>
+      <path d="M960 700 L1000 540 L1230 540 L1190 700 Z" fill="#fff"/><line x1="930" y1="700" x2="1200" y2="700" stroke-width="10"/>
+      <circle cx="700" cy="440" r="52" fill="#fff"/><circle cx="684" cy="432" r="5" fill="#000" stroke="none"/><circle cx="716" cy="432" r="5" fill="#000" stroke="none"/>
+      <path d="M680 456 Q700 478 720 456"/>
+      <line x1="700" y1="492" x2="700" y2="660"/><path d="M700 540 L800 610 L900 640"/><path id="armWave" d="M700 540 L760 470 L790 400"/>
+      <path d="M700 660 L780 700 L780 860"/><path d="M700 660 L740 720 L730 860"/><line x1="640" y1="680" x2="800" y2="680" stroke-width="6"/>
+    </g>
+    <g transform="translate(1062 590)"><circle cx="0" cy="0" r="22" fill="none" stroke="#4f46e5" stroke-width="6"/><path d="M0 -12v12l8 5" fill="none" stroke="#4f46e5" stroke-width="6" stroke-linecap="round"/><text x="36" y="10" font-size="30" font-weight="800" fill="#0f172a">Recall</text></g>
+  </svg>
+</div>
+
+<div class="scene white-bg" id="sara">
+  <svg width="1920" height="1080" style="position:absolute;inset:0"><g transform="translate(0 -110)">
+    <g stroke="#000" stroke-width="7" fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="820" cy="420" r="52" fill="#fff"/><circle cx="804" cy="412" r="5" fill="#000" stroke="none"/><circle cx="836" cy="412" r="5" fill="#000" stroke="none"/>
+      <path d="M806 446 Q820 438 834 446"/>
+      <line x1="820" y1="472" x2="820" y2="660"/><path d="M820 520 L890 540 L880 450"/><path d="M820 520 L760 600"/>
+      <path d="M820 660 L780 850"/><path d="M820 660 L860 850"/>
+      <rect x="862" y="410" width="36" height="62" rx="7" fill="#000"/>
+    </g>
+    <g><rect x="960" y="300" width="360" height="100" rx="24" fill="#000"/><path d="M990 400 l-20 40 l60 -40z" fill="#000"/>
+      <text x="1140" y="364" text-anchor="middle" fill="#fff" font-size="40" font-weight="800">"sick today"</text></g>
+    <text x="820" y="920" text-anchor="middle" font-size="52" font-weight="800">Sara</text></g>
+  </svg>
+</div>
+
+<div class="scene white-bg" id="tom">
+  <svg width="1920" height="1080" style="position:absolute;inset:0"><g transform="translate(0 -110)">
+    <g stroke="#000" stroke-width="7" fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="700" cy="420" r="52" fill="#fff"/><circle cx="684" cy="412" r="5" fill="#000" stroke="none"/><circle cx="716" cy="412" r="5" fill="#000" stroke="none"/>
+      <path d="M684 440 Q700 452 716 440"/>
+      <line x1="700" y1="472" x2="700" y2="660"/><path d="M700 530 L800 590"/><path d="M700 530 L790 610"/>
+      <path d="M700 660 L660 850"/><path d="M700 660 L740 850"/>
+      <path d="M790 560 L840 560 L880 740 L1180 740 L1220 600 L860 600" /><circle cx="920" cy="790" r="22"/><circle cx="1140" cy="790" r="22"/>
+      <rect x="930" y="470" width="220" height="140" rx="10" fill="#fff"/><line x1="1040" y1="610" x2="1040" y2="640"/>
+    </g>
+    <text x="1040" y="552" text-anchor="middle" font-size="30" font-weight="800">€289</text>
+    <text x="700" y="920" text-anchor="middle" font-size="52" font-weight="800">Tom</text></g>
+  </svg>
+</div>
+
+<!-- ============================== TECH ============================== -->
+<div class="scene tech" id="tech">
+  <div class="strip" id="strip">
+    <span class="pill" data-p="0">Email · Meetings · Wiki · Portal</span><span class="arrow">&rarr;</span>
+    <span class="pill" data-p="1">Schema-guided extraction</span><span class="arrow">&rarr;</span>
+    <span class="pill" data-p="2">Resolve</span><span class="arrow">&rarr;</span>
+    <span class="pill" data-p="3">Temporal ownership-grounded graph</span><span class="arrow">&rarr;</span>
+    <span class="pill" data-p="4">FastAPI · FastMCP</span>
+  </div>
+  <div class="stage" id="stage"></div>
+</div>
+
+<!-- ============================== BUSINESS ============================== -->
+<div class="scene biz" id="biz"></div>
+<div class="scene end" id="endcard">
+  <div style="position:absolute;left:0;right:0;top:230px;text-align:center">
+    <svg width="120" height="120" viewBox="0 0 30 30"><circle cx="15" cy="15" r="13" fill="none" stroke="#818cf8" stroke-width="2.6"/><path d="M15 8v7l5 3" fill="none" stroke="#818cf8" stroke-width="2.6" stroke-linecap="round"/><circle cx="24" cy="6" r="4" fill="#22c55e"/></svg>
+    <div style="font-size:140px;font-weight:800;letter-spacing:-.04em;margin-top:6px">Recall</div>
+    <div id="tagline" style="font-size:52px;font-weight:600;color:#c7d2fe;margin-top:6px"></div>
+    <div style="font-size:24px;color:#94a3b8;margin-top:34px">Powered by TOKG, the Temporal Ownership-Grounded Knowledge Graph &middot; github.com/YusufHosny/tokg</div>
+    <div style="font-size:22px;color:#94a3b8;margin-top:12px">Made by team AlladinsAgents: Yusuf Hussein, Karam Kokash, Ahmed Salheen, Alex Gretski (alpha leader) &middot; Tectonic 2026 Leuven</div>
+  </div>
+</div>
+
+<script>
+// Deterministic scene timeline: window.seek(t) renders global time t (seconds).
+// Beat times come from window.__T (injected by render.py from the VO cues); defaults follow vo_lines.txt.
+const T = Object.assign({
+  hookJob: 3, hookWants: 7, flood: 11, floodOwner: 16.07, black: 21, dont: 22, crazy: 25, hospital: 26.3, again: 30, againEnd: 31.4,
+  saraStart: 46.86, saraEnd: 47.9, tomStart: 52.1, tomEnd: 53.1,
+  tech: 60, problem: 65.76, q1: 68.8, q2: 72.34, q3: 73.6, ingest: 75.84, resolve: 83.22, confirm: 87.7, supersede: 89.66,
+  escalate: 92.66, fact: 97.24, serve: 102.94, storage: 111.06, finale: 114.34,
+  biz: 120, market: 134, model: 147, oversight: 154, roadmap: 162, end: 170, total: 175,
+}, window.__T || {});
+
+const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+const ease = x => 1 - Math.pow(1 - clamp(x), 3);
+const pop = x => { x = clamp(x); return x < 1 ? 1 + 0.12 * Math.sin(x * Math.PI) : 1; };
+const $ = id => document.getElementById(id);
+function rng(seed) { return () => { seed |= 0; seed = seed + 0x6D2B79F5 | 0; let t = Math.imul(seed ^ seed >>> 15, 1 | seed); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+function fade(el, t, at, dur = 0.4, dy = 18) { const p = ease((t - at) / dur); el.style.opacity = p; el.style.transform = `translateY(${(1 - p) * dy}px)`; return p; }
+function only(id) { document.querySelectorAll(".scene").forEach(s => s.style.display = s.id === id ? "block" : "none"); }
+
+// ---------------------------------------------------------------- hook: flood documents
+const DOCS = [
+  ["SLACK · #hr-questions", "anyone know how the work permit thing works??", "3 replies · all different"],
+  ["WIKI", "Hiring non-EU employees in Belgium", "Last edited 2019"],
+  ["EMAIL", "Re: Re: Fwd: single permit?", "\"just email the Flemish department\""],
+  ["MEETING NOTES", "HR sync (AI summary, 14 pages)", "says the opposite of the wiki"],
+  ["AI ASSISTANT", "Answer 1 of 3", "\"~4 months, send the file by email\""],
+  ["WIKI (COPY)", "Onboarding checklist (copy)", "by Elise · 2024"],
+  ["AI ASSISTANT", "Answer 2 of 3", "\"Use the online platform\""],
+  ["SLACK · DM", "ask Elise, she did one once", ""],
+  ["PDF", "Single permit DRAFT 2022.pdf", "outdated salary thresholds"],
+  ["AI ASSISTANT", "Answer 3 of 3", "\"Ask the office manager\""],
+  ["EMAIL", "Ravi's permit, lessons learned", "2024"],
+  ["SLACK · #general", "who owns the hiring wiki?", "no replies"],
+];
+const flood = $("flood");
+const R = rng(7), N = 34, cards = [];
+for (let i = 0; i < N; i++) {
+  const d = DOCS[i % DOCS.length], el = document.createElement("div");
+  el.className = "doc";
+  el.innerHTML = `<div class="k">${d[0]}</div><div class="t">${d[1]}</div>${d[2] ? `<div class="s">${d[2]}</div>` : ""}`;
+  flood.appendChild(el);
+  cards.push({ el, x: 60 + R() * 1440, y: 200 + R() * 560, r: (R() - 0.5) * 16, at: Math.pow(i / N, 1.5) * 8.5 });
+}
+function hook(t) {
+  only("hook");
+  const cap = $("hookcap");
+  cap.textContent = t < T.hookJob ? "This is Bob." : t < T.hookWants ? "Bob is a hiring manager at a Belgian tech company." : t < T.flood ? "Bob wants to hire a Brazilian developer." : "";
+  cap.style.opacity = t < T.flood ? ease((t - (t < T.hookJob ? 0.1 : t < T.hookWants ? T.hookJob : T.hookWants)) / 0.35) : 0;
+  // wave on intro
+  const w = t < 2.6 ? Math.sin(t * 9) * 0.5 + 0.5 : 0;
+  $("armL").setAttribute("d", w > 0 ? `M700 540 L${640 - 30 * w} ${470 - 20 * w} L${620 - 10 * w} ${400 - 30 * w}` : "M700 540 L620 600 L600 660");
+  $("badge").style.opacity = ease((t - T.hookJob - 0.2) / 0.4);
+  // laptop screen: search bar while "wants", results flood after
+  const scr = $("lapscreen");
+  const q = "How do I hire a|non-EU developer?", n = Math.round(clamp((t - T.hookWants - 0.3) / 2.2) * q.length);
+  const [l1, l2 = ""] = q.slice(0, n).split("|");
+  scr.innerHTML = t >= T.hookWants ? `<rect x="1016" y="572" width="178" height="62" rx="8" fill="#f1f5f9" transform="skewX(-14) translate(146 0)"/>
+    <text font-size="18" font-weight="700" transform="skewX(-14) translate(146 0)"><tspan x="1026" y="598">${l1}</tspan><tspan x="1022" y="622">${l2}</tspan></text>` : "";
+  // flood
+  const ft = t - T.flood;
+  cards.forEach(c => {
+    const p = ease((ft - c.at) / 0.35);
+    c.el.style.display = ft >= c.at ? "block" : "none";
+    const sx = 1100 + (c.x - 1100) * p, sy = 600 + (c.y - 600) * p;
+    c.el.style.transform = `translate(${sx}px, ${sy}px) rotate(${c.r * p}deg) scale(${0.2 + 0.8 * p})`;
+    c.el.style.left = "0px"; c.el.style.top = "0px";
+  });
+  const counter = $("counter");
+  counter.style.display = ft > 0 ? "block" : "none";
+  counter.textContent = `${Math.min(47, Math.round(ease(ft / 8) * 47))} results`;
+  const stamp = $("stamp");
+  stamp.style.display = t >= T.floodOwner + 0.3 ? "block" : "none";
+  stamp.style.transform = `rotate(-8deg) scale(${pop((t - T.floodOwner - 0.3) / 0.3)})`;
+  const ws = $("wikistamp"); ws.style.display = t >= T.flood + 0.5 ? "block" : "none"; ws.style.transform = `rotate(6deg) scale(${pop((t - T.flood - 0.5) / 0.3)})`;
+  // head shake grows with the flood
+  const shake = ft > 0 ? Math.sin(t * 38) * Math.min(14, ft * 1.8) : 0;
+  $("bobhead").setAttribute("transform", `translate(${shake} 0)`);
+  $("mouth").setAttribute("d", ft > 3 ? "M684 466 Q700 452 716 466" : "M684 460 Q700 470 716 460");
+}
+
+function crazy(t) {
+  only("crazy");
+  const blips = [T.hospital, T.hospital + 0.8], flat = T.hospital + 1.6, win = 1.2;
+  const pts = [];
+  for (let x = 0; x <= 240; x += 3) {
+    const tau = t - win + (x / 240) * win;
+    let y = 0;
+    for (const b of blips) {
+      const d = tau - b;
+      if (d >= 0 && d < 0.05) y = -60 * (d / 0.05); else if (d >= 0.05 && d < 0.1) y = -60 + 100 * ((d - 0.05) / 0.05);
+      else if (d >= 0.1 && d < 0.16) y = 40 - 58 * ((d - 0.1) / 0.06); else if (d >= 0.16 && d < 0.22) y = -18 + 18 * ((d - 0.16) / 0.06);
+    }
+    if (tau >= flat) y = 0;
+    pts.push(`${1410 + x},${470 + y}`);
+  }
+  $("ecg").setAttribute("points", pts.join(" "));
+  $("ecg").setAttribute("stroke", t >= flat + 0.3 ? "#ef4444" : "#22c55e");
+  const k = Math.floor((t - T.hospital) / 0.8);
+  $("zz").innerHTML = [0, 1, 2].filter(i => i <= k % 4).map(i => `<text x="${720 + i * 50}" y="${470 - i * 44}">?</text>`).join("");
+}
+
+
+// ---------------------------------------------------------------- tech
+const stage = $("stage");
+function pills(active) { document.querySelectorAll(".pill").forEach(p => p.classList.toggle("on", active.includes(+p.dataset.p))); }
+function techTitle(t) {
+  stage.innerHTML = `<div style="position:absolute;left:0;right:0;top:120px"><div class="h1" id="tt">TOKG</div><div class="h2" id="ts">Temporal Ownership-Grounded Knowledge Graph</div>
+    <div id="ti" style="display:flex;gap:70px;justify-content:center;margin-top:60px;font-size:30px;font-weight:700;color:#e2e8f0">
+      <span>&#9201; When it's true</span><span>&#9673; Who owns it</span><span>&#10077; Where it came from</span></div></div>`;
+  fade($("tt"), t, T.tech + 0.1, 0.5, 30); fade($("ts"), t, T.tech + 0.6); fade($("ti"), t, T.tech + 1.6);
+}
+function techProblem(t) {
+  const R2 = rng(3);
+  let docs = "";
+  const n = Math.round(ease((t - T.problem) / 3) * 26);
+  for (let i = 0; i < 26; i++) {
+    const x = 200 + R2() * 520, y = 120 + R2() * 440, r = (R2() - .5) * 30;
+    docs += `<div style="position:absolute;left:${x}px;top:${y}px;width:180px;height:230px;background:#f8fafc;border-radius:10px;transform:rotate(${r}deg);opacity:${i < n ? 1 : 0};box-shadow:0 10px 30px rgba(0,0,0,.4)">
+      ${[0,1,2,3,4,5,6].map(j => `<div style="margin:${j ? 12 : 22}px 16px 0;height:9px;border-radius:4px;background:#cbd5e1;width:${60 + ((i * 7 + j * 13) % 40)}%"></div>`).join("")}</div>`;
+  }
+  stage.innerHTML = docs + `
+    <div class="q" id="q1" style="left:1010px;top:150px">What's current?</div>
+    <div class="q" id="q2" style="left:1010px;top:300px">Does it apply to me?</div>
+    <div class="q" id="q3" style="left:1010px;top:450px">Whose word counts?</div>`;
+  fade($("q1"), t, T.q1); fade($("q2"), t, T.q2); fade($("q3"), t, T.q3);
+}
+const SRC = [["Email", "Camila's permit approved"], ["Meeting", "HR sync Q1 2025 (AI summary)"], ["Wiki", "Hiring non-EU employees"], ["Portal", "New hire request: Nigeria"]];
+const FACTS = [["Policy · steps", "Sophie submits via the Working in Belgium platform"], ["Ownership", "Sophie Claes owns the non-EU hiring policy"], ["Example of", "Camila Souza (Brazil), 11 weeks"], ["Example of", "Senior Data Engineer, Nigeria"]];
+function techIngest(t) {
+  const lt = t - T.ingest;
+  let h = `<div class="box" style="left:640px;top:170px;width:420px;height:260px">Schema-guided<br>extraction<div style="font-size:18px;font-weight:500;color:#c7d2fe;margin-top:10px">Policy · Person · Example<br>steps · owner · example_of</div></div>`;
+  SRC.forEach((s, i) => {
+    const p = ease((lt - i * 0.5) / 0.5), fly = ease((lt - 1.6 - i * 0.45) / 0.8);
+    h += `<div class="chipx" style="left:${20 + fly * 540}px;top:${60 + i * 130 + fly * (240 - (60 + i * 130))}px;opacity:${p * (1 - fly)}">${s[0]}<small>${s[1]}</small></div>`;
+  });
+  FACTS.forEach((f, i) => {
+    const p = ease((lt - 3.2 - i * 0.55) / 0.6);
+    h += `<div class="chipx" style="left:${1100 + (1 - p) * -120}px;top:${40 + i * 140}px;opacity:${p};border-color:#6366f1">${f[0]}<small style="color:#e2e8f0;font-size:19px">${f[1]}</small></div>`;
+  });
+  stage.innerHTML = h;
+}
+function techResolve(t) {
+  const lt = t - T.resolve;
+  const oldP = 1, newIn = ease(lt / 0.8);
+  const sup = ease((t - T.supersede) / 0.9), esc = ease((t - T.escalate) / 1.1), conf = ease((t - T.confirm) / 0.6);
+  let h = "";
+  // existing current fact
+  h += `<div class="chipx" style="left:${700 - sup * 0}px;top:${200 + sup * 300}px;opacity:${1 - sup * 0.45};${sup > 0.5 ? "text-decoration:line-through;text-decoration-color:#f87171;" : ""}">2019 wiki page<small>Hiring manager emails the file to the Flemish department</small></div>`;
+  if (sup > 0) h += `<div class="lbl" style="left:700px;top:${590}px;color:#f87171;opacity:${sup}">superseded, kept in history</div>`;
+  // incoming new fact
+  h += `<div class="chipx" style="left:${80 + newIn * 0 + sup * 620}px;top:${200 - sup * 0}px;opacity:${newIn};border-color:#22c55e">Meeting, 11 Mar 2025 · asserted by Sophie (owner)<small>Sophie submits via the Working in Belgium platform</small></div>`;
+  // confirm
+  h += `<div class="chipx" style="left:80px;top:420px;opacity:${conf * (1 - sup)}">Email, 15 Jul 2025<small>"Send the documents to me and I submit"</small></div>`;
+  h += `<div class="lbl" style="left:80px;top:520px;color:#4ade80;opacity:${conf * (1 - sup)}">&#10003; confirms the current fact</div>`;
+  // escalate
+  if (t >= T.escalate - 0.2) {
+    const ex = 80 + esc * 1100, ey = 420 - esc * 120;
+    h += `<div class="chipx" style="left:${ex}px;top:${ey}px;opacity:${ease((t - T.escalate + 0.2) / 0.3)};border-color:#f59e0b">Elise (not the owner), 1 Sep 2024<small>"Email the permit file, ~4 months"</small></div>`;
+    h += `<div style="position:absolute;left:1500px;top:40px;text-align:center;opacity:${ease((t - T.escalate) / 0.4)}">
+      <div style="width:120px;height:120px;border-radius:50%;background:#10b981;display:grid;place-items:center;font-size:44px;font-weight:800;margin:0 auto">SC</div>
+      <div style="font-size:26px;font-weight:700;margin-top:12px">Sophie Claes</div><div style="font-size:19px;color:#94a3b8">Owner</div></div>`;
+    h += `<div class="lbl" style="left:1180px;top:${420 - 120 + 100}px;color:#fbbf24;opacity:${esc}">&#9203; pending: sent to the owner for approval</div>`;
+  }
+  stage.innerHTML = h;
+}
+function techFact(t) {
+  stage.innerHTML = `<div class="fact" id="fc">
+    <div class="ttl">FACT · POLICY: HIRING A NON-EU CITIZEN IN BELGIUM</div>
+    <div class="val">Sophie Claes submits every single permit application through the Working in Belgium platform.</div>
+    <div class="tag" id="g1"><b style="color:#a5b4fc">Valid</b><span>11 Mar 2025 &rarr; now &nbsp;<span style="color:#94a3b8">(supersedes the 2019 wiki process)</span></span></div>
+    <div class="tag" id="g2"><b style="color:#6ee7b7">Owner</b><span>Sophie Claes, HR &amp; Immigration Lead &nbsp;<span style="color:#94a3b8">(confirmed)</span></span></div>
+    <div class="tag" id="g3"><b style="color:#fcd34d">Source quote</b><span>"Sophie submits every application through the platform." <span style="color:#94a3b8">HR sync, 11 Mar 2025</span></span></div></div>`;
+  fade($("fc"), t, T.fact, 0.5, 30);
+  fade($("g1"), t, T.fact + 2.1); fade($("g2"), t, T.fact + 3.2); fade($("g3"), t, T.fact + 4.2);
+}
+function techServe(t) {
+  const lt = t - T.serve;
+  const R3 = rng(11); let g = "";
+  const nodes = Array.from({ length: 14 }, (_, i) => [460 + Math.cos(i * 2.4) * (60 + R3() * 170), 330 + Math.sin(i * 2.4) * (60 + R3() * 170)]);
+  nodes.forEach((a, i) => nodes.slice(i + 1).forEach((b, j) => { if ((i * 3 + j) % 5 === 0) g += `<line x1="${a[0]}" y1="${a[1]}" x2="${b[0]}" y2="${b[1]}" stroke="#475569" stroke-width="2.5"/>`; }));
+  nodes.forEach((a, i) => g += `<circle cx="${a[0]}" cy="${a[1]}" r="${i % 4 === 0 ? 18 : 12}" fill="${["#818cf8", "#22c55e", "#f59e0b", "#38bdf8"][i % 4]}"/>`);
+  const a1 = ease((lt - 1.4) / 0.6), a2 = ease((lt - 2.6) / 0.6), st = ease((t - T.storage) / 0.5);
+  stage.innerHTML = `<svg width="1760" height="700" style="position:absolute;inset:0">${g}
+      <path d="M720 250 L1060 170" stroke="#818cf8" stroke-width="5" fill="none" stroke-dasharray="${a1 * 400} 400"/>
+      <path d="M720 410 L1060 470" stroke="#818cf8" stroke-width="5" fill="none" stroke-dasharray="${a2 * 400} 400"/></svg>
+    <div class="lbl" style="left:330px;top:600px;color:#c7d2fe">TOKG: temporal ownership-grounded graph</div>
+    <div class="box" style="left:1080px;top:100px;width:560px;height:150px;opacity:${a1}">FastAPI &rarr; Recall app<div style="font-size:18px;font-weight:500;color:#c7d2fe">bearer-token auth · owner-only approvals</div></div>
+    <div class="box" style="left:1080px;top:400px;width:560px;height:150px;opacity:${a2}">FastMCP &rarr; any AI agent<div style="font-size:18px;font-weight:500;color:#c7d2fe">query the graph · cite the sources</div></div>
+    <div style="position:absolute;left:80px;top:40px;display:flex;gap:12px;opacity:${st}">
+      <span class="pill on">In-memory + JSON snapshots</span><span class="pill">Neo4j store (available)</span></div>`;
+}
+function techFinale(t) {
+  stage.innerHTML = `<div style="position:absolute;left:0;right:0;top:220px;text-align:center">
+    <div id="f1" style="font-size:78px;font-weight:800;color:#fff;letter-spacing:-.03em">Answers you can trust.</div>
+    <div id="f2" style="font-size:62px;font-weight:700;color:#a5b4fc;margin-top:16px">And a person to ask.</div></div>`;
+  fade($("f1"), t, T.finale + 0.1); fade($("f2"), t, T.finale + 2.4);
+}
+function tech(t) {
+  only("tech");
+  if (t < T.problem) { pills([]); techTitle(t); }
+  else if (t < T.ingest) { pills([]); techProblem(t); }
+  else if (t < T.resolve) { pills([0, 1]); techIngest(t); }
+  else if (t < T.fact) { pills([2]); techResolve(t); }
+  else if (t < T.serve) { pills([3]); techFact(t); }
+  else if (t < T.finale) { pills([4]); techServe(t); }
+  else { pills([0, 1, 2, 3, 4]); techFinale(t); }
+}
+
+// ---------------------------------------------------------------- business
+const biz = $("biz");
+function slideWhy(t) {
+  biz.innerHTML = `<div class="slide-h">Why now</div><div class="slide-t" id="w1">AI made text free.<br>Trust didn't scale.</div>
+    <div class="tile" id="w2" style="left:120px;top:440px;width:800px"><div class="n">$20.2B &rarr; $62B</div><div class="d">Knowledge-management software, 2024 to 2033 (13.6% CAGR)&sup2;</div></div>
+    <div class="tile" id="w3" style="left:1000px;top:440px;width:800px"><div class="n">3.2 h / week</div><div class="d">spent by the average worker searching for information&sup1;</div></div>
+    <div class="tile" id="w4" style="left:120px;top:680px;width:1680px;padding:22px 34px"><div class="d" style="margin:0">Every KM tool was built for human-written volume. Nobody built one for AI-generated volume.</div></div>
+    <div class="foot">1. Slite, Enterprise Search Survey 2025 &nbsp;·&nbsp; 2. Grand View Research, Knowledge Management Software Market</div>`;
+  fade($("w1"), t, T.biz + 0.1); fade($("w2"), t, T.biz + 5.4); fade($("w3"), t, T.biz + 6.4); fade($("w4"), t, T.biz + 10.2);
+}
+function slideMarket(t) {
+  const bar = (id, label, n, d, w, c, at) => `<div id="${id}" style="position:absolute;left:120px;top:${at}px;width:1680px;height:118px">
+      <div style="position:absolute;left:0;top:0;height:118px;width:${w}px;background:${c};border-radius:18px"></div>
+      <div style="position:absolute;left:28px;top:18px;font-size:20px;font-weight:800;letter-spacing:.12em;color:${w < 400 ? "#0f172a" : "#fff"}">${label}</div>
+      <div style="position:absolute;left:${Math.max(w, 330) + 28}px;top:14px;font-size:44px;font-weight:800">${n}</div>
+      <div style="position:absolute;left:${Math.max(w, 330) + 28}px;top:70px;font-size:21px;color:#475569">${d}</div></div>`;
+  biz.innerHTML = `<div class="slide-h">Market &amp; go-to-market</div><div class="slide-t" style="font-size:54px">Start where rules change most: HR &amp; payroll.</div>` +
+    bar("m1", "TAM", "$20.2B", "Knowledge-management software (2024)²", 1000, "#4f46e5", 270) +
+    bar("m2", "SAM", "≈ €1.5B / year", "~50,000 EU organisations with 250+ employees⁴ × €30k blended ACV", 560, "#6366f1", 410) +
+    bar("m3", "SOM Y5", "≈ €30M ARR", "1,200 organisations × €25k, mostly through HR/payroll partners", 250, "#a5b4fc", 550) +
+    `<div class="tile" id="m4" style="left:120px;top:700px;width:1680px;padding:20px 34px"><div class="d" style="margin:0"><b>Wedge:</b> SD Worx alone serves <b>100,000+</b> client organisations and <b>6M+</b> payslips³. 1% of one partner is 1,000 organisations.</div></div>
+    <div class="foot">2. Grand View Research &nbsp;·&nbsp; 3. SD Worx challenge brief &nbsp;·&nbsp; 4. Eurostat, structural business statistics by size class (rounded)</div>`;
+  ["m1", "m2", "m3"].forEach((id, i) => fade($(id), t, T.market + 0.4 + i * 0.9));
+  fade($("m4"), t, T.market + 4.4);
+}
+function slideModel(t) {
+  const tier = (id, n, p, d, x) => `<div class="tile" id="${id}" style="left:${x}px;top:270px;width:395px;height:240px"><div style="font-size:22px;font-weight:800;color:#4f46e5">${n}</div><div style="font-size:40px;font-weight:800;margin-top:8px">${p}</div><div class="d" style="font-size:19px">${d}</div></div>`;
+  const ov = ease((t - T.oversight) / 3);
+  const human = `M0 0 C 120 10, 200 120, 400 150 S 700 175, 780 178`, cover = `M0 180 C 140 170, 260 60, 500 30 S 700 18, 780 15`;
+  biz.innerHTML = `<div class="slide-h">Business model</div><div class="slide-t" style="font-size:54px">B2B SaaS, priced on indexed knowledge and query volume.</div>` +
+    tier("p1", "Team", "€1,500 / mo", "One department, up to 10k nodes", 120) + tier("p2", "Business", "€4,000 / mo", "Company-wide, all connectors, MCP", 548) +
+    tier("p3", "Enterprise", "from €60k / yr", "Private cloud, SSO, custom domain packs", 976) + tier("p4", "Partner", "€8 / client / mo", "Providers like SD Worx bundle Recall", 1404) +
+    `<div class="tile" id="p5" style="left:120px;top:550px;width:780px;height:270px"><div style="font-size:22px;font-weight:800;color:#4f46e5">~80% gross margin</div><div class="d">LLM cost is paid once, at ingest. Queries read the graph.</div><div class="d" style="margin-top:14px">Private-cloud deployments for regulated customers.</div></div>
+    <div class="tile" id="p6" style="left:940px;top:550px;width:860px;height:270px"><div style="font-size:22px;font-weight:800;color:#4f46e5">Fixed oversight budget</div>
+      <svg width="790" height="190" style="margin-top:8px"><g transform="translate(4 6)">
+        <path d="${human}" fill="none" stroke="#f59e0b" stroke-width="6" stroke-dasharray="${ov * 900} 900"/>
+        <path d="${cover}" fill="none" stroke="#22c55e" stroke-width="6" stroke-dasharray="${ov * 900} 900"/>
+        <text x="600" y="160" font-size="20" font-weight="700" fill="#b45309" opacity="${ov}">human effort</text>
+        <text x="500" y="52" font-size="20" font-weight="700" fill="#15803d" opacity="${ov}">knowledge kept current</text></g></svg></div>`;
+  ["p1", "p2", "p3", "p4"].forEach((id, i) => fade($(id), t, T.model + 0.3 + i * 0.35));
+  fade($("p5"), t, T.model + 3.6); fade($("p6"), t, T.oversight);
+}
+function slideRoadmap(t) {
+  const rows = [["Y1", "10", "€0.3M", "6", "Belgian HR/payroll pack · 2 paid pilots"], ["Y2", "60", "€1.5M", "15", "First partner bundle · NL + FR packs"], ["Y3", "220", "€5.5M", "35", "5 EU countries · Slack/Teams listeners"], ["Y4", "550", "€13M", "70", "IT + finance packs · second partner"], ["Y5", "1,200", "€30M", "120", "Compliance pack · domain-pack marketplace"]];
+  const step = (id, k, n, x) => `<div class="tile" id="${id}" style="left:${x}px;top:250px;width:540px;height:196px"><div style="font-size:18px;font-weight:800;letter-spacing:.1em;color:#4f46e5">${k}</div><div style="font-size:30px;font-weight:750;margin-top:10px;line-height:1.25">${n}</div></div>`;
+  biz.innerHTML = `<div class="slide-h">Roadmap &amp; 5-year plan</div>` +
+    step("r1", "NOW", "Multi-source ingestion pipeline", 120) + step("r2", "NEXT", "Live Slack &amp; Teams listeners", 690) + step("r3", "THEN", "Contradiction alerts, the moment a meeting clashes with policy", 1260) +
+    `<table class="plan" id="tbl"><tr><th>Year</th><th>Customers</th><th>ARR</th><th>Team</th><th>Milestones</th></tr>
+      ${rows.map((r, i) => `<tr id="row${i}"><td class="num">${r[0]}</td><td class="num">${r[1]}</td><td class="num" style="color:#4f46e5">${r[2]}</td><td>${r[3]}</td><td style="color:#475569">${r[4]}</td></tr>`).join("")}</table>`;
+  fade($("r1"), t, T.roadmap + 0.2); fade($("r2"), t, T.roadmap + 1.8); fade($("r3"), t, T.roadmap + 3.4);
+  rows.forEach((_, i) => fade($("row" + i), t, T.roadmap + 1 + i * 0.4, 0.4, 8));
+}
+function business(t) {
+  if (t >= T.end) {
+    only("endcard");
+    const words = ["Find it.", "Understand it.", "Trust it."];
+    const el = $("tagline");
+    el.innerHTML = words.map((w, i) => `<span style="opacity:${ease((t - T.end - 1.0 - i * 0.9) / 0.4)}">${w}</span>`).join(" ");
+    return;
+  }
+  only("biz");
+  if (t < T.market) slideWhy(t); else if (t < T.model) slideMarket(t); else if (t < T.roadmap) slideModel(t); else slideRoadmap(t);
+}
+
+// ---------------------------------------------------------------- dispatch
+window.seek = t => {
+  if (t < T.black) hook(t);
+  else if (t < T.dont) only("__none__"), document.body.style.background = "#000";
+  else if (t < T.crazy) { only("dont"); fade($("dontcap"), t, T.dont + 0.05, 0.3, 0); }
+  else if (t < T.again) {
+    if (t < T.hospital) { only("dont"); $("dontcap").textContent = "Bob went crazy."; $("dontcap").style.opacity = 1; $("dontcap").style.transform = "none"; }
+    else { $("dontcap").textContent = "Don't be like Bob."; crazy(t); }
+  }
+  else if (t < T.againEnd) { only("again"); const k = Math.sin((t - T.again) * 10); $("armWave").setAttribute("d", `M700 540 L${760 + 10 * k} 470 L${790 + 20 * k} 400`); }
+  else if (t >= T.saraStart && t < T.saraEnd) only("sara");
+  else if (t >= T.tomStart && t < T.tomEnd) only("tom");
+  else if (t >= T.tech && t < T.biz) tech(t);
+  else if (t >= T.biz) business(t);
+  if (t >= T.dont || t < T.black) document.body.style.background = "#fff";
+};
+window.ready = document.fonts.ready.then(() => true);
+</script>
+</body>
+</html>

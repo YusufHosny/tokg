@@ -1,0 +1,227 @@
+[
+ {
+  "start": 0.711,
+  "end": 2.05,
+  "text": "This is Bob."
+ },
+ {
+  "start": 2.744,
+  "end": 6.97,
+  "text": "Bob is a hiring manager at a Belgian tech company."
+ },
+ {
+  "start": 7.458,
+  "end": 10.61,
+  "text": "Bob wants to hire a Brazilian developer."
+ },
+ {
+  "start": 11.59,
+  "end": 13.02,
+  "text": "The wiki is from 2019."
+ },
+ {
+  "start": 13.04,
+  "end": 17.35,
+  "text": "The AI assistant finds three versions of the process."
+ },
+ {
+  "start": 18.041,
+  "end": 19.47,
+  "text": "A meeting note says the opposite."
+ },
+ {
+  "start": 19.98,
+  "end": 21.71,
+  "text": "And nobody knows who owns it."
+ },
+ {
+  "start": 22.275,
+  "end": 24.15,
+  "text": "Don't be like Bob."
+ },
+ {
+  "start": 26.405,
+  "end": 27.33,
+  "text": "Bob went crazy."
+ },
+ {
+  "start": 30.0,
+  "end": 33.29,
+  "text": "This time Bob asks Recall."
+ },
+ {
+  "start": 34.38,
+  "end": 37.45,
+  "text": "He gets the current single permit process for Flanders,"
+ },
+ {
+  "start": 38.08,
+  "end": 39.61,
+  "text": "not the 2019 wiki."
+ },
+ {
+  "start": 40.64,
+  "end": 45.93,
+  "text": "Two previous hires with the emails behind them and the one person who owns the process."
+ },
+ {
+  "start": 46.86,
+  "end": 51.73,
+  "text": "Sara checks a client's old doctor's note rule against the new sick leave law."
+ },
+ {
+  "start": 52.1,
+  "end": 57.67,
+  "text": "And Tom learns the old Amazon budget is gone and orders through the new IT portal."
+ },
+ {
+  "start": 60.0,
+  "end": 65.13,
+  "text": "Under the hood is TOKG, a temporal ownership knowledge graph."
+ },
+ {
+  "start": 65.76,
+  "end": 68.33,
+  "text": "Companies now produce more text than anyone can read."
+ },
+ {
+  "start": 68.8,
+  "end": 71.51,
+  "text": "Search finds everything, but can't tell what's current,"
+ },
+ {
+  "start": 72.34,
+  "end": 75.05,
+  "text": "what applies to you, or whose word counts."
+ },
+ {
+  "start": 75.84,
+  "end": 77.03,
+  "text": "Step one, ingest."
+ },
+ {
+  "start": 77.62,
+  "end": 81.33,
+  "text": "Emails, meeting notes, wiki pages, and documents become facts,"
+ },
+ {
+  "start": 81.52,
+  "end": 82.87,
+  "text": "shaped by a domain schema."
+ },
+ {
+  "start": 83.22,
+  "end": 84.69,
+  "text": "Step two, resolve."
+ },
+ {
+  "start": 85.34,
+  "end": 87.37,
+  "text": "Every new fact is checked against the graph."
+ },
+ {
+  "start": 87.7,
+  "end": 89.13,
+  "text": "It confirms what's known,"
+ },
+ {
+  "start": 89.66,
+  "end": 92.64,
+  "text": "supersedes an older version while keeping the history,"
+ },
+ {
+  "start": 92.66,
+  "end": 96.63,
+  "text": "or if a non-owner changes a rule, goes to the owner for approval."
+ },
+ {
+  "start": 97.24,
+  "end": 98.85,
+  "text": "Every fact carries three things:"
+ },
+ {
+  "start": 99.16,
+  "end": 102.73,
+  "text": "when it's valid, who owns it, and the exact quote it came from."
+ },
+ {
+  "start": 102.94,
+  "end": 104.45,
+  "text": "Step three, serve."
+ },
+ {
+  "start": 105.0,
+  "end": 110.65,
+  "text": "FastAPI powers the app, and an MCP server lets any AI agent query the graph and cite its sources."
+ },
+ {
+  "start": 111.06,
+  "end": 114.32000000000001,
+  "text": "It runs in memory for zero setup or on Neo4j."
+ },
+ {
+  "start": 114.34,
+  "end": 119.29,
+  "text": "Answers you can trust, and a person to ask when the documents run out."
+ },
+ {
+  "start": 120.27,
+  "end": 121.05,
+  "text": "Why now?"
+ },
+ {
+  "start": 122.02,
+  "end": 125.73,
+  "text": "AI made text free to produce, but trust didn't scale with it."
+ },
+ {
+  "start": 126.18,
+  "end": 132.97,
+  "text": "Knowledge management is already a twenty-billion-dollar market and none of it was built for AI-generated volume."
+ },
+ {
+  "start": 133.68,
+  "end": 138.37,
+  "text": "We started where rules change most and mistakes cost most, HR and payroll."
+ },
+ {
+  "start": 138.86,
+  "end": 143.55,
+  "text": "One partner like SD Worx reaches over a hundred thousand client organizations."
+ },
+ {
+  "start": 143.82,
+  "end": 147.47,
+  "text": "So every domain schema we built is reused thousands of times."
+ },
+ {
+  "start": 147.74,
+  "end": 154.97,
+  "text": "We sell B2B SaaS priced on indexed knowledge and query volume with private-cloud deployments for regulated customers."
+ },
+ {
+  "start": 155.56,
+  "end": 157.61,
+  "text": "The promise is a fixed oversight budget."
+ },
+ {
+  "start": 158.14,
+  "end": 163.39,
+  "text": "People set it up once and answer the occasional escalation and the graph keeps itself current."
+ },
+ {
+  "start": 164.04,
+  "end": 166.35,
+  "text": "Next come live Slack and Teams listeners"
+ },
+ {
+  "start": 166.84,
+  "end": 171.11,
+  "text": "and alerts the moment a meeting contradicts policy."
+ },
+ {
+  "start": 171.78,
+  "end": 175.65,
+  "text": "Recall. Find it. Understand it. Trust it."
+ }
+]

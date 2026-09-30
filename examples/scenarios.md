@@ -1,6 +1,6 @@
 # Demo Scenarios
 
-Three scenarios for the SD Worx track, played out at **Lumivia NV**, a fictional 46-person software company in Ghent whose payroll is run by SD Worx. The mock data is in [`data/`](data/); its README has the full answer key.
+Three scenarios for the SD Worx track, played out at **Foo BV**, a fictional 46-person software company in Ghent whose payroll is run by SD Worx. The mock data is in [`data/`](data/); its README has the full answer key.
 
 Each scenario starts from a concrete *moment of doubt*: an employee has found information but cannot act on it with confidence. Each shows how tokg turns scattered, conflicting sources into one answer that is **current**, **owned** and **auditable**.
 
@@ -49,15 +49,15 @@ Every scenario has three parts:
 |---|---|---|
 | `wiki-2019-01-15-001` | Wiki (Laura) | **Old state**: work regulations Art. 7.3, a certificate within 48h for every absence. |
 | `email-2022-11-30-001` | Email (Marc, SD Worx) | Legal bulletin: first-day exemption; companies under 50 employees can opt out. |
-| `meeting-2023-01-17-001` | Meeting summary (AI bot) | Decision: Lumivia does **not** opt out. |
+| `meeting-2023-01-17-001` | Meeting summary (AI bot) | Decision: Foo does **not** opt out. |
 | `wiki-2023-03-01-001` | Wiki (Laura) | **New state**: Amendment No. 3 replaces Art. 7.3; Marc is the contact. |
 | `email-2026-01-20-001` | Email (Elise) | **Trap**: "we are small, we ALWAYS need a doctor's note". |
 | `portal-2025-11-04-001` | Portal ticket | Example: a one-day absence reported without a note. |
 
 ### Decision / problem
-- Lumivia has 46 employees, so it *could* have opted out. Whether it did is recorded only in a management meeting summary and a signed amendment.
+- Foo has 46 employees, so it *could* have opted out. Whether it did is recorded only in a management meeting summary and a signed amendment.
 - The most recent message on the topic (Elise's all-staff reminder) is **wrong**, and it is the one people remember. Recency alone gives the wrong answer.
-- The owner of this knowledge is external: the SD Worx payroll consultant, not anyone at Lumivia.
+- The owner of this knowledge is external: the SD Worx payroll consultant, not anyone at Foo.
 
 ### How we solve it
 - **Temporal:** Amendment No. 3 (valid from 2023-03-01) supersedes Art. 7.3. The history shows both, with the signed amendment as evidence.

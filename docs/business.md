@@ -18,7 +18,7 @@ Knowledge workers already spend **3.2 hours a week** searching for information¹
 
 ## 2. The product
 
-Recall ingests email, meeting notes, wikis and documents into **TOKG**, a temporal ownership knowledge graph. Every answer comes with:
+Recall ingests email, meeting notes, wikis and documents into **TOKG**, a Temporal Ownership-Grounded Knowledge Graph. Every answer comes with:
 
 - **the current version**, with the older versions it replaced (and why) one click away;
 - **the context it applies to**: country, region, client;
@@ -27,7 +27,7 @@ Recall ingests email, meeting notes, wikis and documents into **TOKG**, a tempor
 
 When sources disagree, Recall doesn't guess. A change from a non-owner waits for the owner's approval, and an unanswerable question goes to the owner. The owner's answer is fed back into the graph, so nobody has to ask again.
 
-Recall runs as a web app for employees, an HTTP API, and an **MCP server**, so any AI agent (Claude, Copilot-style assistants, internal bots) can query trusted, cited knowledge instead of raw documents.
+Recall ships as a **web app** for employees and owners, an **HTTP API** that providers like SD Worx can embed in the portals their clients already use, and an **MCP server**, so any AI agent (Claude, Copilot-style assistants, internal bots) can query trusted, cited knowledge instead of raw documents.
 
 ## 3. Why now
 
@@ -53,7 +53,7 @@ We start where **rules change often, context matters most, and mistakes are cost
 - every client has its own work regulations, opt-outs and exceptions;
 - a wrong answer means a payroll error, a compliance breach or an unhappy employee.
 
-HR and payroll providers like SD Worx are the ideal channel. One provider serves a huge base of client organisations on the same statutory backbone. A **domain pack** built once (the Belgian HR/payroll schema, statutory sources, ownership map) is reused across thousands of clients, with only the client-specific layer (work regulations, opt-outs) differing. The demo scenarios come straight from this world, set in a fictional 46-person Ghent company, Lumivia NV, with SD Worx as its payroll provider:
+HR and payroll providers like SD Worx are the ideal channel. One provider serves a huge base of client organisations on the same statutory backbone. A **domain pack** built once (the Belgian HR/payroll schema, statutory sources, ownership map) is reused across thousands of clients, with only the client-specific layer (work regulations, opt-outs) differing. The demo scenarios come straight from this world, set in a fictional 46-person Ghent company, Foo BV, with SD Worx as its payroll provider:
 - hiring non-EU employees under the single permit;
 - single-day sick-leave certificates;
 - hardware purchasing rules.
@@ -86,7 +86,7 @@ The core promise to a buyer: **human effort is bounded and decays while coverage
 | Verified-knowledge tools | Card- or verification-based KM tools | Owners periodically verify content | Verification is manual and page-level, not extracted, per-fact or context-scoped. |
 | GraphRAG / KG toolkits | Open-source GraphRAG and temporal-graph libraries | Graph extraction and retrieval | Developer libraries, not governed knowledge: no ownership, approvals or escalation loop. |
 
-**Our edge:** ownership and time are part of the data model, not bolted on. Each fact is scoped to a context and linked to its source. Trust is explicit (`confirmed`, `unconfirmed` or `pending`). Governance is enforced by the graph itself, so every interface (the app, the API and AI agents over MCP) gets the same guarantees.
+**Our edge:** ownership and time are part of the data model, not bolted on. Each fact is scoped to a context and linked to its source. Trust is explicit (`confirmed`, `unconfirmed` or `pending`). Governance is enforced by the graph itself, so every interface (the web app, partner portals over the API, and AI agents over MCP) gets the same guarantees.
 
 ## 8. Go-to-market
 
@@ -107,7 +107,7 @@ The core promise to a buyer: **human effort is bounded and decays while coverage
 
 | Horizon | Product |
 |---|---|
-| **Now (hackathon POC)** | Temporal ownership graph core, schema format, email/meeting/wiki/document ingest, approval and escalation loop, HTTP API, MCP server, demo app |
+| **Now (hackathon POC)** | TOKG core (Temporal Ownership-Grounded Knowledge Graph), schema format, email/meeting/wiki/document ingest, approval and escalation loop, Recall web app with owner inbox, HTTP API, MCP server, mock SD Worx Portal as a live source |
 | **Next** | Live Slack/Teams and mailbox listeners; proactive alerts when a meeting contradicts policy; owner inbox |
 | **Then** | Country packs for EU HR/payroll; embedding-based retrieval and entity matching; production graph backend |
 | **Later** | Horizontal domain packs (IT, finance, compliance); partner marketplace for domain packs |

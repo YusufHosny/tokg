@@ -1,0 +1,976 @@
+extractions:
+  meeting-2023-01-17-001:
+  - kind: attribute
+    subject:
+      type: Policy
+      name: Sick leave and doctors' notes
+    attribute: summary
+    value: 'Foo does not opt out of the statutory first-day exemption for sick leave certificates:
+      employees may report sick for a single day without a doctor''s note, a maximum of 3 times per calendar
+      year. The rule is laid down in Article 7.3 of the Work Regulations (amendment no. 3).'
+    context:
+      country: BE
+    valid_from: '2023-01-17'
+    quote: 'Decision: Foo will NOT opt out. The first-day exemption will be adopted (maximum 3 times
+      per calendar year).'
+  email-2022-11-30-001:
+  - kind: attribute
+    subject:
+      type: Policy
+      name: Sick leave and doctor's notes
+    attribute: summary
+    value: Since 28 November 2022, employees in Belgium no longer need to submit a medical certificate
+      for the first day of incapacity for work, up to 3 times per calendar year (one-day absences). Employers
+      with fewer than 50 employees, such as Foo (46 employees), may keep requiring a certificate for
+      every absence, but only if the work regulations explicitly state this. Foo's Article 7.3 currently
+      requires a certificate for every absence, so Foo must either adopt the exemption and update
+      Article 7.3, or opt out via a formal amendment confirming the certificate requirement.
+    context:
+      country: BE
+    valid_from: '2022-11-28'
+    quote: Since 28 November 2022, employees no longer need to submit a medical certificate for the first
+      day of incapacity for work, up to 3 times per calendar year.
+    asserted_by: marc.dubois@sdworx.com
+  wiki-2019-01-15-001:
+  - kind: attribute
+    subject:
+      type: Policy
+      name: Sick leave and doctor's notes
+    attribute: summary
+    value: An employee unable to work due to illness or accident must inform their direct manager before
+      10:00 on the first day of absence, stating the expected duration and the address where they are
+      staying if different from home. For every illness absence, regardless of duration, a medical certificate
+      must be submitted within 48 hours from the start of the absence. The employer may have the employee
+      examined by a control doctor of its choice.
+    valid_from: '2019-01-15'
+    quote: For every absence due to illness, regardless of its duration, the employee must submit a medical
+      certificate within 48 hours from the start of the absence.
+  - kind: attribute
+    subject:
+      type: Policy
+      name: Sick leave and doctor's notes
+    attribute: steps
+    value: '1. Inform your direct manager before 10:00 on the first day of absence.
+
+      2. Communicate the expected duration of the absence and the address where you are staying if different
+      from your home address.
+
+      3. Submit a medical certificate within 48 hours from the start of the absence, regardless of its
+      duration.
+
+      4. Be available for examination by a control doctor chosen by the employer if requested.'
+    valid_from: '2019-01-15'
+    quote: must inform their direct manager before 10:00 on the first day of absence.
+  wiki-2024-02-12-001:
+  - kind: attribute
+    subject:
+      type: Policy
+      name: Remote office equipment and hardware purchasing
+    attribute: summary
+    value: Everyone working from home can buy desk peripherals (monitors, keyboards, mice, headsets, webcams,
+      docking stations) from any shop and expense them via Expensify, with a budget of up to €500 per
+      employee per year. Purchases under €500 need no approval; above €500 the line manager must approve
+      in Expensify. Laptops are not covered, as they are always provided by IT.
+    valid_from: '2024-02-12'
+    quote: Everyone working from home can buy desk peripherals and expense them.
+  - kind: attribute
+    subject:
+      type: Policy
+      name: Remote office equipment and hardware purchasing
+    attribute: steps
+    value: '1. Buy the desk peripheral (monitor, keyboard, mouse, headset, webcam or docking station)
+      from any shop, e.g. Amazon, Coolblue, MediaMarkt, within your €500 yearly budget.
+
+      2. Submit the receipt in Expensify.
+
+      3. If the amount is above €500, ask your line manager to approve it in Expensify; under €500 no
+      approval is needed.'
+    valid_from: '2024-02-12'
+    quote: Buy from any shop (Amazon, Coolblue, MediaMarkt...) and submit the receipt in Expensify.
+  - kind: ownership
+    subject:
+      type: Policy
+      name: Remote office equipment and hardware purchasing
+    owner: laura.desmet@foo.be
+    quote: Remote work equipment & peripherals
+  email-2024-06-18-001:
+  - kind: attribute
+    subject:
+      type: Example
+      name: Hiring Ravi Kumar (Backend Engineer, India)
+    attribute: summary
+    value: Ravi Kumar's Belgian single permit was approved on 2024-06-18, about 4.5 months after submission.
+      He starts at Foo on 1 August 2024.
+    context:
+      country: BE
+      audience: non-EU nationals
+    valid_from: '2024-06-18'
+    quote: 'Ravi Kumar''s single permit was approved today. Total time from submission: about 4.5 months.
+      He''ll start on 1 August.'
+  - kind: attribute
+    subject:
+      type: Example
+      name: Hiring Ravi Kumar (Backend Engineer, India)
+    attribute: lessons
+    value: The file was sent back once because the salary in the contract and the application form did
+      not match exactly (gross annual vs monthly); use gross annual salary everywhere. The apostille took
+      4 weeks. The municipality appointment in Ghent had a 3 week waiting list, so book it as soon as
+      the arrival date is known. Loop in Sophie Claes early for future cases.
+    context:
+      country: BE
+      audience: non-EU nationals
+    quote: The file was sent back once because the salary in the contract and the application form didn't
+      match exactly (gross annual vs monthly). Use gross annual everywhere.
+  - kind: relation
+    subject:
+      type: Example
+      name: Hiring Ravi Kumar (Backend Engineer, India)
+    relation: example_of
+    target:
+      type: Policy
+      name: Hiring a non-EU citizen in Belgium (single permit)
+    quote: 'Lessons learned, for the next non-EU hire:'
+  - kind: ownership
+    subject:
+      type: Example
+      name: Hiring Ravi Kumar (Backend Engineer, India)
+    owner: sophie.claes@foo.be
+    quote: Please loop me in early for future cases.
+  wiki-2023-03-01-001:
+  - kind: attribute
+    subject:
+      type: Policy
+      name: Sick leave and doctor's notes
+    attribute: summary
+    value: A medical certificate is not required for an incapacity for work of only one day, up to 3 times
+      per calendar year. The employee must still inform their direct manager before 10:00 and register
+      the absence in the employee portal on the same day. For the fourth one-day absence in a calendar
+      year, and for every absence longer than one day, a medical certificate must be submitted within
+      48 hours from the start of the absence. Foo BV does not use the exception for employers with
+      fewer than 50 employees.
+    valid_from: '2023-03-01'
+    quote: A medical certificate is not required for an incapacity for work that lasts only one day, up
+      to 3 times per calendar year.
+    asserted_by: laura.desmet@foo.be
+  - kind: attribute
+    subject:
+      type: Policy
+      name: Sick leave and doctor's notes
+    attribute: steps
+    value: '1. Inform your direct manager before 10:00 on the day of absence.
+
+      2. Register the absence in the employee portal on the same day.
+
+      3. For the fourth one-day absence in a calendar year, or any absence longer than one day, submit
+      a medical certificate within 48 hours from the start of the absence.'
+    valid_from: '2023-03-01'
+    quote: The employee must still inform their direct manager before 10:00 and register the absence in
+      the employee portal on the same day.
+    asserted_by: laura.desmet@foo.be
+  - kind: ownership
+    subject:
+      type: Policy
+      name: Sick leave and doctor's notes
+    owner: marc.dubois@sdworx.com
+    valid_from: '2023-03-01'
+    quote: 'Questions about this article: contact Marc Dubois.'
+  wiki-2023-05-10-001:
+  - kind: attribute
+    subject:
+      type: Policy
+      name: Hiring a non-EU citizen in Belgium (single permit)
+    attribute: summary
+    value: Non-EU/EEA candidates need a single permit (gecombineerde vergunning), one permit covering
+      both the right to work and the right to stay in Belgium. The hiring manager confirms candidate and
+      salary with HR, collects the documents, and submits the application file to the Flemish Department
+      of Work and Social Economy; processing takes about 4 months.
+    context:
+      country: BE
+      audience: non-EU nationals
+    valid_from: '2023-05-10'
+    quote: 'Non-EU employees need a single permit (gecombineerde vergunning): one permit that covers both
+      the right to work and the right to stay in Belgium.'
+  - kind: attribute
+    subject:
+      type: Policy
+      name: Hiring a non-EU citizen in Belgium (single permit)
+    attribute: steps
+    value: '1. The hiring manager confirms the candidate and the gross annual salary with HR before making
+      an offer.
+
+      2. The hiring manager collects the documents from the candidate: passport copy, diploma, signed
+      employment contract and a medical certificate.
+
+      3. The hiring manager sends the application file to the Flemish Department of Work and Social Economy
+      by email.
+
+      4. Processing takes about 4 months. Plan the start date accordingly.
+
+      5. Once approved, the candidate applies for a type D visa at the Belgian embassy in their country.
+
+      6. After arrival, the employee registers at the Ghent municipality within 8 working days.'
+    context:
+      country: BE
+      audience: non-EU nationals
+    valid_from: '2023-05-10'
+    quote: The hiring manager sends the application file to the Flemish Department of Work and Social
+      Economy by email.
+  - kind: ownership
+    subject:
+      type: Policy
+      name: Hiring a non-EU citizen in Belgium (single permit)
+    owner: sophie.claes@foo.be
+    context:
+      country: BE
+    quote: This page explains how to hire someone who does not have EU/EEA citizenship to work at our
+      Ghent office.
+  email-2025-05-16-001: []
+  email-2025-09-08-001: []
+  email-2024-02-06-001:
+  - kind: relation
+    subject:
+      type: Example
+      name: Hiring Ravi Kumar (Backend Engineer, India)
+    relation: example_of
+    target:
+      type: Policy
+      name: Hiring a non-EU citizen in Belgium (single permit)
+    valid_from: '2024-02-06'
+    quote: I'll follow the wiki page and send the file to the Flemish department myself.
+  - kind: ownership
+    subject:
+      type: Example
+      name: Hiring Ravi Kumar (Backend Engineer, India)
+    owner: pieter.janssens@foo.be
+    quote: I'll follow the wiki page and send the file to the Flemish department myself.
+  - kind: attribute
+    subject:
+      type: Example
+      name: Hiring Ravi Kumar (Backend Engineer, India)
+    attribute: summary
+    value: In February 2024 Foo decided to make an offer to Ravi Kumar, an Indian citizen based in
+      Bangalore, for the Backend Engineer role. Because he is a non-EU national, a Belgian single permit
+      was needed. Pieter Janssens handled the case and submitted the file to the Flemish department himself,
+      following the wiki page. The offered salary was within the agreed salary band.
+    valid_from: '2024-02-06'
+    quote: He's based in Bangalore, Indian citizen, so we'll need the single permit.
+  - kind: attribute
+    subject:
+      type: Example
+      name: Hiring Ravi Kumar (Backend Engineer, India)
+    attribute: lessons
+    value: 1) The diploma needs an apostille (legalisation); in India this can take 3+ weeks, so the candidate
+      should start immediately. 2) Have the candidate book the medical certificate at an embassy-approved
+      doctor early, because slots fill up. 3) Send Sophie Claes a copy of the full file before submitting
+      so she can check the salary against the single permit salary threshold.
+    valid_from: '2024-02-06'
+    quote: The diploma needs an apostille (legalisation). In India this can take 3+ weeks, so ask Ravi
+      to start today.
+    asserted_by: sophie.claes@foo.be
+  wiki-2025-01-20-001:
+  - kind: attribute
+    subject:
+      type: Policy
+      name: Office Wi-Fi and printers
+    attribute: summary
+    value: Staff connect to the "Foo-Staff" Wi-Fi network with their company login. Guests use "Foo-Guest",
+      whose password is shown on the screen at reception. There is one printer per floor, and scan-to-email
+      works from all printers. If a printer is jammed, do not open the back panel; contact IT.
+    quote: 'Wi-Fi: connect to "Foo-Staff" with your company login. Guests use "Foo-Guest", the
+      password is on the screen at reception.'
+  wiki-2024-09-01-002:
+  - kind: attribute
+    subject:
+      type: Policy
+      name: Hiring a non-EU citizen in Belgium (single permit)
+    attribute: steps
+    value: '1. The hiring manager sends the permit file by email to the Flemish department (processing
+      takes about 4 months).
+
+      2. Once the permit is granted, the new hire gets a visa.
+
+      3. The new hire registers at the town hall.'
+    context:
+      country: BE
+      audience: non-EU nationals
+    quote: 'For non-EU hires: the hiring manager sends the permit file to the Flemish department by email,
+      takes about 4 months. Then the person gets a visa and registers at the town hall.'
+  meeting-2025-03-11-001:
+  - kind: attribute
+    subject:
+      type: Policy
+      name: Hiring a non-EU citizen in Belgium (single permit)
+    attribute: summary
+    value: 'Single permit applications are submitted exclusively through the online "Working in Belgium"
+      platform; the regional department no longer accepts files sent by email. Hiring managers do not
+      send applications themselves: they collect the candidate''s documents in the shared HR folder and
+      Sophie Claes, Foo''s registered company user, submits every application. Salary thresholds for
+      highly qualified workers are updated every January, so hiring managers must check the salary with
+      Sophie before making an offer. Recent applications have been processed in about 2.5 to 3 months.'
+    context:
+      country: BE
+      audience: non-EU nationals
+    valid_from: '2025-03-11'
+    quote: From now on, hiring managers do NOT send single permit applications themselves.
+    asserted_by: sophie.claes@foo.be
+  - kind: attribute
+    subject:
+      type: Policy
+      name: Hiring a non-EU citizen in Belgium (single permit)
+    attribute: steps
+    value: '1. Hiring manager checks the proposed salary with Sophie Claes before making an offer (highly
+      qualified worker salary thresholds are updated every January).
+
+      2. Hiring manager collects the candidate''s documents in the shared HR folder.
+
+      3. Sophie Claes, the registered company user for Foo, submits the single permit application
+      through the online "Working in Belgium" platform.
+
+      4. Wait for processing, which recently takes about 2.5 to 3 months.'
+    context:
+      country: BE
+      audience: non-EU nationals
+    valid_from: '2025-03-11'
+    quote: Hiring managers collect the candidate's documents in the shared HR folder, and Sophie submits
+      every application through the platform.
+    asserted_by: sophie.claes@foo.be
+  - kind: ownership
+    subject:
+      type: Policy
+      name: Hiring a non-EU citizen in Belgium (single permit)
+    owner: sophie.claes@foo.be
+    valid_from: '2025-03-11'
+    quote: Sophie is the owner of this process and the contact for all questions about non-EU hiring.
+    asserted_by: sophie.claes@foo.be
+  email-2025-10-02-001: []
+  email-2025-04-02-001:
+  - kind: attribute
+    subject:
+      type: Example
+      name: Hiring Camila Souza (Account Executive, Brazil)
+    attribute: summary
+    value: In April 2025 Foo hired Camila Souza, a Brazilian citizen living in São Paulo, as Account
+      Executive after she accepted the offer. On 2025-04-02 Amira Haddad placed her passport, apostilled
+      diploma and signed contract in the shared HR folder, and Sophie Claes confirmed the salary was above
+      that year's threshold and submitted the single permit application via the platform the same day.
+    quote: The salary is above this year's threshold, so we're fine. I'll submit today.
+  - kind: attribute
+    subject:
+      type: Example
+      name: Hiring Camila Souza (Account Executive, Brazil)
+    attribute: lessons
+    value: Before submitting the single permit application, check that the salary is above the applicable
+      yearly threshold. Gather the passport, apostilled diploma and signed contract in the shared HR folder
+      beforehand, and ask the candidate to book the medical exam as soon as the application is submitted.
+    quote: Please tell Camila to book the medical exam now.
+  - kind: relation
+    subject:
+      type: Example
+      name: Hiring Camila Souza (Account Executive, Brazil)
+    relation: example_of
+    target:
+      type: Policy
+      name: Hiring a non-EU citizen in Belgium (single permit)
+    quote: She's a Brazilian citizen living in São Paulo. Following what we agreed at the sync, I've put
+      her passport, diploma (with apostille) and the signed contract in the shared HR folder.
+  - kind: ownership
+    subject:
+      type: Example
+      name: Hiring Camila Souza (Account Executive, Brazil)
+    owner: sophie.claes@foo.be
+    quote: Thanks Amira, got everything. ... I'll submit today.
+    asserted_by: sophie.claes@foo.be
+  email-2025-07-15-001:
+  - kind: attribute
+    subject:
+      type: Example
+      name: Hiring Camila Souza (Account Executive, Brazil)
+    attribute: summary
+    value: Camila Souza, a non-EU hire, had her Belgian single permit approved in July 2025, 11 weeks
+      after submission through the Working in Belgium platform. This was much faster than the old email-based
+      process.
+    context:
+      country: BE
+      audience: non-EU nationals
+    valid_from: '2025-07-15'
+    quote: Camila Souza's single permit was approved, 11 weeks after submission through the Working in
+      Belgium platform. Much faster than the old email process.
+  - kind: attribute
+    subject:
+      type: Example
+      name: Hiring Camila Souza (Account Executive, Brazil)
+    attribute: lessons
+    value: Submitting single permit applications through the Working in Belgium platform is much faster
+      than the old email process (11 weeks for Camila Souza). Hiring managers must not submit anything
+      themselves; they send the documents to Sophie Claes, who submits.
+    context:
+      country: BE
+      audience: non-EU nationals
+    valid_from: '2025-07-15'
+    quote: for every non-EU hire, send the documents to me and I submit. Don't submit anything yourselves.
+  - kind: relation
+    subject:
+      type: Example
+      name: Hiring Camila Souza (Account Executive, Brazil)
+    relation: example_of
+    target:
+      type: Policy
+      name: Hiring a non-EU citizen in Belgium (single permit)
+    quote: Camila Souza's single permit was approved, 11 weeks after submission through the Working in
+      Belgium platform.
+  - kind: ownership
+    subject:
+      type: Example
+      name: Hiring Camila Souza (Account Executive, Brazil)
+    owner: sophie.claes@foo.be
+    quote: send the documents to me and I submit
+  - kind: attribute
+    subject:
+      type: Policy
+      name: Hiring a non-EU citizen in Belgium (single permit)
+    attribute: summary
+    value: For every non-EU hire, hiring managers send the required documents to Sophie Claes, who submits
+      the single permit application through the Working in Belgium platform. Managers must not submit
+      anything themselves.
+    context:
+      country: BE
+      audience: non-EU nationals
+    valid_from: '2025-07-15'
+    quote: for every non-EU hire, send the documents to me and I submit. Don't submit anything yourselves.
+  - kind: ownership
+    subject:
+      type: Policy
+      name: Hiring a non-EU citizen in Belgium (single permit)
+    owner: sophie.claes@foo.be
+    context:
+      country: BE
+      audience: non-EU nationals
+    quote: send the documents to me and I submit
+  portal-2025-11-04-001:
+  - kind: attribute
+    subject:
+      type: Example
+      name: Sick leave report - Nina Wouters (2025-11-04)
+    attribute: summary
+    value: Nina Wouters reported one day of sick leave on 2025-11-04 (start and expected end date the
+      same day) due to a migraine, expecting to be back the next day. No doctor's note was uploaded, and
+      her manager was informed before 10:00.
+    valid_from: '2025-11-04'
+    quote: 'Comment: Migraine, back tomorrow.'
+  - kind: ownership
+    subject:
+      type: Example
+      name: Sick leave report - Nina Wouters (2025-11-04)
+    owner: nina.wouters@foo.be
+    quote: 'Employee: Nina Wouters'
+  - kind: relation
+    subject:
+      type: Example
+      name: Sick leave report - Nina Wouters (2025-11-04)
+    relation: example_of
+    target:
+      type: Policy
+      name: Sick leave and doctor's notes
+    quote: 'Type: Sick leave'
+  email-2025-11-19-001: []
+  email-2025-12-01-001: []
+  email-2026-02-10-001: []
+  email-2026-01-20-001:
+  - kind: attribute
+    subject:
+      type: Policy
+      name: Sick leave and doctor's notes
+    attribute: summary
+    value: Foo always requires a doctor's note within 48 hours of the start of sick leave, even when
+      the absence is only one day. The note must be uploaded in the portal.
+    valid_from: '2026-01-20'
+    quote: we are a small company so we ALWAYS need a doctor's note within 48 hours, even if you are only
+      sick for one day. Please upload it in the portal.
+    asserted_by: elise.peeters@foo.be
+  email-2026-03-18-001: []
+  email-2026-03-24-001: []
+  meeting-2026-03-05-001:
+  - kind: attribute
+    subject:
+      type: Policy
+      name: Remote office equipment and hardware purchasing
+    attribute: summary
+    value: Since 16 March 2026, direct expensing of external hardware is stopped. All peripherals must
+      be ordered through the internal IT procurement portal using its standard catalogue. Tom Verbeke
+      (IT Asset Manager) is the only person who can approve exceptions or items outside the catalogue;
+      line managers can no longer approve hardware purchases.
+    valid_from: '2026-03-16'
+    quote: Direct expensing of external hardware is stopped from 16 March 2026. All peripherals must be
+      ordered through the IT procurement portal.
+    asserted_by: tom.verbeke@foo.be
+  - kind: attribute
+    subject:
+      type: Policy
+      name: Remote office equipment and hardware purchasing
+    attribute: steps
+    value: '1. Do not expense hardware directly from an external vendor.
+
+      2. Order the peripheral through the internal IT procurement portal, choosing from the standard catalogue.
+
+      3. For exceptions or items outside the catalogue, request approval from Tom Verbeke (IT Asset Manager);
+      line managers cannot approve hardware purchases.'
+    valid_from: '2026-03-16'
+    quote: All peripherals must be ordered through the IT procurement portal. Tom Verbeke (IT Asset Manager)
+      is the only person who can approve exceptions or items outside the catalogue.
+  - kind: ownership
+    subject:
+      type: Policy
+      name: Remote office equipment and hardware purchasing
+    owner: tom.verbeke@foo.be
+    valid_from: '2026-03-16'
+    quote: Tom Verbeke (IT Asset Manager) is the only person who can approve exceptions or items outside
+      the catalogue.
+    asserted_by: tom.verbeke@foo.be
+  email-2026-05-06-001: []
+  email-2026-03-09-001:
+  - kind: attribute
+    subject:
+      type: Policy
+      name: Remote office equipment and hardware purchasing
+    attribute: summary
+    value: From 16 March 2026, employees can no longer buy monitors, keyboards, headsets or other peripherals
+      themselves and expense them; the €500 Expensify peripherals budget is stopped. All peripherals must
+      be ordered through the IT procurement portal (Employee Portal > Order equipment) from the standard
+      catalogue, with warranty and asset tracking. Exceptions (items not in the catalogue or more than
+      the standard kit) can only be approved by Tom Verbeke, IT Asset Manager; line managers can no longer
+      approve hardware purchases. Expensify claims for hardware bought after 16 March 2026 will be rejected.
+    valid_from: '2026-03-16'
+    quote: All peripherals must be ordered through the IT procurement portal (Employee Portal > Order
+      equipment).
+  - kind: attribute
+    subject:
+      type: Policy
+      name: Remote office equipment and hardware purchasing
+    attribute: steps
+    value: '1. Order peripherals (monitors, keyboards, headsets etc.) through the IT procurement portal
+      (Employee Portal > Order equipment) from the standard catalogue.
+
+      2. If you need something not in the catalogue or more than the standard kit, ask Tom Verbeke (IT
+      Asset Manager) for an exception; only he can approve it.
+
+      3. Do not buy hardware yourself and expense it via Expensify; such claims for purchases after 16
+      March 2026 will be rejected.'
+    valid_from: '2026-03-16'
+    quote: If you need something that isn't in the catalogue, or you need more than the standard kit,
+      ask Tom Verbeke (IT Asset Manager).
+  - kind: ownership
+    subject:
+      type: Policy
+      name: Remote office equipment and hardware purchasing
+    owner: tom.verbeke@foo.be
+    valid_from: '2026-03-16'
+    quote: Tom is the only person who can approve exceptions.
+  portal-2026-03-20-001:
+  - kind: attribute
+    subject:
+      type: Example
+      name: Equipment order - Nina Wouters (ergonomic keyboard KB-02)
+    attribute: summary
+    value: On 2026-03-20 Nina Wouters ordered one ergonomic keyboard (catalogue item KB-02) for delivery
+      to her home address because of wrist pain with her current keyboard. IT (Tom Verbeke) approved the
+      order.
+    valid_from: '2026-03-20'
+    quote: 'Status: Approved by IT (Tom Verbeke)'
+  - kind: relation
+    subject:
+      type: Example
+      name: Equipment order - Nina Wouters (ergonomic keyboard KB-02)
+    relation: example_of
+    target:
+      type: Policy
+      name: Remote office equipment and hardware purchasing
+    quote: 'Item: Ergonomic keyboard (catalogue item KB-02)'
+  - kind: ownership
+    subject:
+      type: Example
+      name: Equipment order - Nina Wouters (ergonomic keyboard KB-02)
+    owner: nina.wouters@foo.be
+    quote: 'Employee: Nina Wouters'
+  email-2026-04-16-001:
+  - kind: attribute
+    subject:
+      type: Policy
+      name: Remote office equipment and hardware purchasing
+    attribute: summary
+    value: Since 16 March 2026, hardware can no longer be expensed (e.g. via Expensify) and line managers
+      can no longer approve hardware purchases. Employees must order hardware through the IT procurement
+      portal; standard items such as a 27" monitor are in the standard catalogue.
+    valid_from: '2026-03-16'
+    quote: Since 16 March, hardware can't be expensed anymore and line managers can't approve it
+    asserted_by: tom.verbeke@foo.be
+  - kind: attribute
+    subject:
+      type: Policy
+      name: Remote office equipment and hardware purchasing
+    attribute: steps
+    value: '1. Check the standard catalogue in the IT procurement portal (e.g. the 27" monitor is listed).
+
+      2. Order the hardware through the IT procurement portal.
+
+      3. Do not expense hardware or ask a line manager to approve it.'
+    valid_from: '2026-03-16'
+    quote: next time please order through the IT procurement portal. The 27" monitor is in the standard
+      catalogue.
+    asserted_by: tom.verbeke@foo.be
+  email-2026-06-12-001: []
+  meeting-2026-08-20-001: []
+  meeting-2026-07-08-001: []
+  email-2026-04-14-001:
+  - kind: attribute
+    subject:
+      type: Policy
+      name: Remote office equipment and hardware purchasing
+    attribute: summary
+    value: Equipment costing under €500, such as a 27" second monitor for home, can be bought by the employee
+      directly and then expensed. No further approval is needed for purchases under this limit.
+    quote: Sure, just buy it and expense it like last time. It's under €500 so no problem.
+    asserted_by: pieter.janssens@foo.be
+  - kind: attribute
+    subject:
+      type: Example
+      name: Second home monitor purchase by Lucas Maes (April 2026)
+    attribute: summary
+    value: On 2026-04-14 Lucas Maes asked Pieter Janssens whether he could get a second monitor for home
+      (a 27" monitor on Amazon for €289). Pieter replied the same day that he could buy it himself and
+      expense it, since it was under €500.
+    quote: Could I get a second monitor for home? There's a 27" one on Amazon for €289.
+  - kind: relation
+    subject:
+      type: Example
+      name: Second home monitor purchase by Lucas Maes (April 2026)
+    relation: example_of
+    target:
+      type: Policy
+      name: Remote office equipment and hardware purchasing
+    quote: Sure, just buy it and expense it like last time. It's under €500 so no problem.
+    asserted_by: pieter.janssens@foo.be
+  - kind: ownership
+    subject:
+      type: Example
+      name: Second home monitor purchase by Lucas Maes (April 2026)
+    owner: lucas.maes@foo.be
+    quote: Could I get a second monitor for home?
+  meeting-2026-06-25-001: []
+  portal-2026-06-02-001:
+  - kind: attribute
+    subject:
+      type: Example
+      name: Senior Data Engineer hire (Nigeria, non-EU) starting 2026-10-01
+    attribute: summary
+    value: New hire request submitted on 2026-06-02 by hiring manager Pieter Janssens for a Senior Data
+      Engineer, a Non-EU (Nigerian) candidate who needs a work permit. Planned start date is 2026-10-01.
+      As of the request, the documents had been collected in the shared HR folder and were waiting for
+      HR to submit the permit application.
+    context:
+      audience: non-EU nationals
+    valid_from: '2026-06-02'
+    quote: 'Status: Documents collected in the shared HR folder, waiting for HR to submit.'
+  - kind: relation
+    subject:
+      type: Example
+      name: Senior Data Engineer hire (Nigeria, non-EU) starting 2026-10-01
+    relation: example_of
+    target:
+      type: Policy
+      name: Hiring a non-EU citizen in Belgium (single permit)
+    context:
+      audience: non-EU nationals
+    quote: 'Candidate nationality: Non-EU (Nigeria)'
+  - kind: ownership
+    subject:
+      type: Example
+      name: Senior Data Engineer hire (Nigeria, non-EU) starting 2026-10-01
+    owner: pieter.janssens@foo.be
+    quote: 'Hiring manager: Pieter Janssens'
+decisions:
+  wiki-2019-01-15-001:0:
+    action: create
+    rationale: No existing fact in this slot and context.
+  wiki-2019-01-15-001:1:
+    action: create
+    rationale: No existing fact in this slot and context.
+  email-2022-11-30-001:0:
+    action: create
+    rationale: No existing fact in this slot and context.
+  meeting-2023-01-17-001:0:
+    action: escalate
+    target_fact_ids:
+    - email-2022-11-30-001:0
+    rationale: Newer statement from someone without authority over this topic; needs owner approval.
+    question: 'A source states ''summary = Foo does not opt out of the statutory first-day exemption
+      for sick leave certificates: employees may report sick for a single day without a doctor''s note,
+      a maximum of 3 times per calendar year. The rule is laid down in Article 7.3 of the Work Regulations
+      (amendment no. 3).'' for Sick leave and doctor''s notes, replacing ''summary = Since 28 November
+      2022, employees in Belgium no longer need to submit a medical certificate for the first day of incapacity
+      for work, up to 3 times per calendar year (one-day absences). Employers with fewer than 50 employees,
+      such as Foo (46 employees), may keep requiring a certificate for every absence, but only if
+      the work regulations explicitly state this. Foo''s Article 7.3 currently requires a certificate
+      for every absence, so Foo must either adopt the exemption and update Article 7.3, or opt out
+      via a formal amendment confirming the certificate requirement.''. Approve?'
+  wiki-2023-03-01-001:0:
+    action: supersede
+    target_fact_ids:
+    - wiki-2019-01-15-001:0
+    rationale: Newer authoritative statement replaces the previous one.
+  wiki-2023-03-01-001:1:
+    action: supersede
+    target_fact_ids:
+    - wiki-2019-01-15-001:1
+    rationale: Newer authoritative statement replaces the previous one.
+  wiki-2023-03-01-001:2:
+    action: confirm
+    target_fact_ids:
+    - seed:policy:sick-leave-certificate
+    rationale: Restates an existing fact.
+  wiki-2023-05-10-001:0:
+    action: create
+    rationale: No existing fact in this slot and context.
+  wiki-2023-05-10-001:1:
+    action: create
+    rationale: No existing fact in this slot and context.
+  wiki-2023-05-10-001:2:
+    action: create
+    rationale: No existing fact in this slot and context.
+  email-2024-02-06-001:0:
+    action: create
+    rationale: No existing fact in this slot and context.
+  email-2024-02-06-001:1:
+    action: create
+    rationale: No existing fact in this slot and context.
+  email-2024-02-06-001:2:
+    action: create
+    rationale: No existing fact in this slot and context.
+  email-2024-02-06-001:3:
+    action: create
+    rationale: No existing fact in this slot and context.
+  wiki-2024-02-12-001:0:
+    action: create
+    rationale: No existing fact in this slot and context.
+  wiki-2024-02-12-001:1:
+    action: create
+    rationale: No existing fact in this slot and context.
+  wiki-2024-02-12-001:2:
+    action: supersede
+    target_fact_ids:
+    - seed:policy:hardware-purchasing
+    rationale: Newer authoritative statement replaces the previous one.
+  email-2024-06-18-001:0:
+    action: create
+    rationale: No existing fact in this slot and context.
+  email-2024-06-18-001:1:
+    action: create
+    rationale: No existing fact in this slot and context.
+  email-2024-06-18-001:2:
+    action: create
+    rationale: No existing fact in this slot and context.
+  email-2024-06-18-001:3:
+    action: create
+    rationale: No existing fact in this slot and context.
+  wiki-2024-09-01-002:0:
+    action: escalate
+    target_fact_ids:
+    - wiki-2023-05-10-001:1
+    rationale: Newer statement from someone without authority over this topic; needs owner approval.
+    question: 'person:elise-peeters-foo-be states ''steps = 1. The hiring manager sends the permit
+      file by email to the Flemish department (processing takes about 4 months).
+
+      2. Once the permit is granted, the new hire gets a visa.
+
+      3. The new hire registers at the town hall.'' for Hiring a non-EU citizen in Belgium (single permit),
+      replacing ''steps = 1. The hiring manager confirms the candidate and the gross annual salary with
+      HR before making an offer.
+
+      2. The hiring manager collects the documents from the candidate: passport copy, diploma, signed
+      employment contract and a medical certificate.
+
+      3. The hiring manager sends the application file to the Flemish Department of Work and Social Economy
+      by email.
+
+      4. Processing takes about 4 months. Plan the start date accordingly.
+
+      5. Once approved, the candidate applies for a type D visa at the Belgian embassy in their country.
+
+      6. After arrival, the employee registers at the Ghent municipality within 8 working days.''. Approve?'
+  wiki-2025-01-20-001:0:
+    action: create
+    rationale: No existing fact in this slot and context.
+  meeting-2025-03-11-001:0:
+    action: supersede
+    target_fact_ids:
+    - wiki-2023-05-10-001:0
+    rationale: Newer authoritative statement replaces the previous one.
+  meeting-2025-03-11-001:1:
+    action: supersede
+    target_fact_ids:
+    - wiki-2023-05-10-001:1
+    rationale: Newer authoritative statement replaces the previous one.
+  meeting-2025-03-11-001:2:
+    action: confirm
+    target_fact_ids:
+    - seed:policy:hire-non-eu
+    rationale: Restates an existing fact.
+  email-2025-04-02-001:0:
+    action: create
+    rationale: No existing fact in this slot and context.
+  email-2025-04-02-001:1:
+    action: create
+    rationale: No existing fact in this slot and context.
+  email-2025-04-02-001:2:
+    action: create
+    rationale: No existing fact in this slot and context.
+  email-2025-04-02-001:3:
+    action: create
+    rationale: No existing fact in this slot and context.
+  email-2025-07-15-001:0:
+    action: create
+    rationale: No existing fact in this slot and context.
+  email-2025-07-15-001:1:
+    action: create
+    rationale: No existing fact in this slot and context.
+  email-2025-07-15-001:2:
+    action: create
+    rationale: No existing fact in this slot and context.
+  email-2025-07-15-001:3:
+    action: create
+    rationale: No existing fact in this slot and context.
+  email-2025-07-15-001:4:
+    action: supersede
+    target_fact_ids:
+    - meeting-2025-03-11-001:0
+    rationale: Newer authoritative statement replaces the previous one.
+  email-2025-07-15-001:5:
+    action: create
+    rationale: No existing fact in this slot and context.
+  portal-2025-11-04-001:0:
+    action: create
+    rationale: No existing fact in this slot and context.
+  portal-2025-11-04-001:1:
+    action: create
+    rationale: No existing fact in this slot and context.
+  portal-2025-11-04-001:2:
+    action: create
+    rationale: No existing fact in this slot and context.
+  email-2026-01-20-001:0:
+    action: escalate
+    target_fact_ids:
+    - wiki-2023-03-01-001:0
+    rationale: Newer statement from someone without authority over this topic; needs owner approval.
+    question: person:elise-peeters-foo-be states 'summary = Foo always requires a doctor's note
+      within 48 hours of the start of sick leave, even when the absence is only one day. The note must
+      be uploaded in the portal.' for Sick leave and doctor's notes, replacing 'summary = A medical certificate
+      is not required for an incapacity for work of only one day, up to 3 times per calendar year. The
+      employee must still inform their direct manager before 10:00 and register the absence in the employee
+      portal on the same day. For the fourth one-day absence in a calendar year, and for every absence
+      longer than one day, a medical certificate must be submitted within 48 hours from the start of the
+      absence. Foo BV does not use the exception for employers with fewer than 50 employees.'. Approve?
+  meeting-2026-03-05-001:0:
+    action: escalate
+    target_fact_ids:
+    - wiki-2024-02-12-001:0
+    rationale: Newer statement from someone without authority over this topic; needs owner approval.
+    question: person:tom-verbeke-foo-be states 'summary = Since 16 March 2026, direct expensing of
+      external hardware is stopped. All peripherals must be ordered through the internal IT procurement
+      portal using its standard catalogue. Tom Verbeke (IT Asset Manager) is the only person who can approve
+      exceptions or items outside the catalogue; line managers can no longer approve hardware purchases.'
+      for Remote office equipment and hardware purchasing, replacing 'summary = Everyone working from
+      home can buy desk peripherals (monitors, keyboards, mice, headsets, webcams, docking stations) from
+      any shop and expense them via Expensify, with a budget of up to €500 per employee per year. Purchases
+      under €500 need no approval; above €500 the line manager must approve in Expensify. Laptops are
+      not covered, as they are always provided by IT.'. Approve?
+  meeting-2026-03-05-001:1:
+    action: escalate
+    target_fact_ids:
+    - wiki-2024-02-12-001:1
+    rationale: Newer statement from someone without authority over this topic; needs owner approval.
+    question: 'A source states ''steps = 1. Do not expense hardware directly from an external vendor.
+
+      2. Order the peripheral through the internal IT procurement portal, choosing from the standard catalogue.
+
+      3. For exceptions or items outside the catalogue, request approval from Tom Verbeke (IT Asset Manager);
+      line managers cannot approve hardware purchases.'' for Remote office equipment and hardware purchasing,
+      replacing ''steps = 1. Buy the desk peripheral (monitor, keyboard, mouse, headset, webcam or docking
+      station) from any shop, e.g. Amazon, Coolblue, MediaMarkt, within your €500 yearly budget.
+
+      2. Submit the receipt in Expensify.
+
+      3. If the amount is above €500, ask your line manager to approve it in Expensify; under €500 no
+      approval is needed.''. Approve?'
+  meeting-2026-03-05-001:2:
+    action: escalate
+    target_fact_ids:
+    - wiki-2024-02-12-001:2
+    rationale: Newer statement from someone without authority over this topic; needs owner approval.
+    question: person:tom-verbeke-foo-be states 'owned by person:tom-verbeke-foo-be' for Remote
+      office equipment and hardware purchasing, replacing 'owned by person:laura-desmet-foo-be'. Approve?
+  email-2026-03-09-001:0:
+    action: supersede
+    target_fact_ids:
+    - wiki-2024-02-12-001:0
+    rationale: Newer authoritative statement replaces the previous one.
+  email-2026-03-09-001:1:
+    action: supersede
+    target_fact_ids:
+    - wiki-2024-02-12-001:1
+    rationale: Newer authoritative statement replaces the previous one.
+  email-2026-03-09-001:2:
+    action: supersede
+    target_fact_ids:
+    - wiki-2024-02-12-001:2
+    rationale: Newer authoritative statement replaces the previous one.
+  portal-2026-03-20-001:0:
+    action: create
+    rationale: No existing fact in this slot and context.
+  portal-2026-03-20-001:1:
+    action: create
+    rationale: No existing fact in this slot and context.
+  portal-2026-03-20-001:2:
+    action: create
+    rationale: No existing fact in this slot and context.
+  email-2026-04-14-001:0:
+    action: escalate
+    target_fact_ids:
+    - email-2026-03-09-001:0
+    rationale: Newer statement from someone without authority over this topic; needs owner approval.
+    question: person:pieter-janssens-foo-be states 'summary = Equipment costing under €500, such as
+      a 27" second monitor for home, can be bought by the employee directly and then expensed. No further
+      approval is needed for purchases under this limit.' for Remote office equipment and hardware purchasing,
+      replacing 'summary = From 16 March 2026, employees can no longer buy monitors, keyboards, headsets
+      or other peripherals themselves and expense them; the €500 Expensify peripherals budget is stopped.
+      All peripherals must be ordered through the IT procurement portal (Employee Portal > Order equipment)
+      from the standard catalogue, with warranty and asset tracking. Exceptions (items not in the catalogue
+      or more than the standard kit) can only be approved by Tom Verbeke, IT Asset Manager; line managers
+      can no longer approve hardware purchases. Expensify claims for hardware bought after 16 March 2026
+      will be rejected.'. Approve?
+  email-2026-04-14-001:1:
+    action: create
+    rationale: No existing fact in this slot and context.
+  email-2026-04-14-001:2:
+    action: create
+    rationale: No existing fact in this slot and context.
+  email-2026-04-14-001:3:
+    action: create
+    rationale: No existing fact in this slot and context.
+  email-2026-04-16-001:0:
+    action: supersede
+    target_fact_ids:
+    - email-2026-03-09-001:0
+    rationale: Newer authoritative statement replaces the previous one.
+  email-2026-04-16-001:1:
+    action: supersede
+    target_fact_ids:
+    - email-2026-03-09-001:1
+    rationale: Newer authoritative statement replaces the previous one.
+  portal-2026-06-02-001:0:
+    action: create
+    rationale: No existing fact in this slot and context.
+  portal-2026-06-02-001:1:
+    action: create
+    rationale: No existing fact in this slot and context.
+  portal-2026-06-02-001:2:
+    action: create
+    rationale: No existing fact in this slot and context.

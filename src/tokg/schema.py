@@ -3,8 +3,9 @@
 from pathlib import Path
 from typing import Self
 
-import yaml
 from pydantic import BaseModel, Field, model_validator
+
+from tokg.safeio import load_yaml, read_text
 
 
 class AttributeSpec(BaseModel):
@@ -63,7 +64,7 @@ class Schema(BaseModel):
 
   @classmethod
   def from_yaml(cls, path: str | Path) -> Self:
-    return cls.model_validate(yaml.safe_load(Path(path).read_text()))
+    return cls.model_validate(load_yaml(read_text(path)))
 
   def entity(self, name: str) -> EntityType | None:
     return next((e for e in self.entities if e.name == name), None)

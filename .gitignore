@@ -11,7 +11,12 @@ wheels/
 
 # local runtime state
 *.snapshot.json
+*.store.json
+store.json
 tokens.yaml
+*tokens*.yaml
 .env
+.env*
 .DS_Store
 node_modules/
+*.snapshot.json.lock

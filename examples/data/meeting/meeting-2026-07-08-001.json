@@ -2,11 +2,11 @@
   "id": "meeting-2026-07-08-001",
   "source": "meeting",
   "timestamp": "2026-07-08T10:00:00Z",
-  "author": "meeting-bot@lumivia.be",
+  "author": "meeting-bot@foo.be",
   "recipients": [
-    "jonas.mertens@lumivia.be",
-    "amira.haddad@lumivia.be",
-    "camila.souza@lumivia.be"
+    "jonas.mertens@foo.be",
+    "amira.haddad@foo.be",
+    "camila.souza@foo.be"
   ],
   "title": "Sales pipeline review - Q3 2026 (AI summary)",
   "body": "Meeting summary (auto-generated)\nAttendees: Amira Haddad, Jonas Mertens, Camila Souza\n\nThe team reviewed the Q3 pipeline. Twelve opportunities are in the proposal stage, of which four are expected to close this quarter. Camila shared updates on two prospects in the Netherlands. Jonas raised concerns about the length of procurement cycles in the public sector. The team agreed to focus on mid-market accounts and to review pricing for the analytics add-on. Amira will prepare the forecast for the management meeting."

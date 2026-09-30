@@ -2,9 +2,9 @@
   "id": "email-2026-05-06-001",
   "source": "email",
   "timestamp": "2026-05-06T16:20:00Z",
-  "author": "jonas.mertens@lumivia.be",
+  "author": "jonas.mertens@foo.be",
   "recipients": [
-    "all@lumivia.be"
+    "all@foo.be"
   ],
   "title": "headsets?",
   "body": "I heard from someone that we can still expense headsets if they're under €100, is that true? Mine is broken.\nJonas"

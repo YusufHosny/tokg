@@ -6,6 +6,7 @@ from typing import Self
 from pydantic import BaseModel, Field, TypeAdapter
 
 from tokg.models import Escalation, Fact, Node, Source
+from tokg.safeio import MAX_SNAPSHOT_BYTES, read_bytes, write_text_atomic
 from tokg.store.base import GraphStore
 
 
@@ -20,6 +21,10 @@ class MemoryStore(GraphStore):
   def __init__(self) -> None:
     self._nodes: dict[str, Node] = {}
     self._facts: dict[str, Fact] = {}
+    self._seq: dict[str, int] = {}
+    self._fact_keys: dict[str, tuple[str, str | None]] = {}
+    self._by_subject: dict[str, dict[str, None]] = {}
+    self._by_target: dict[str, dict[str, None]] = {}
     self._sources: dict[str, Source] = {}
     self._escalations: dict[str, Escalation] = {}
 
@@ -33,15 +38,34 @@ class MemoryStore(GraphStore):
     return [n for n in self._nodes.values() if type_ is None or n.type == type_]
 
   def put_fact(self, fact: Fact) -> None:
+    keys = (fact.subject_id, getattr(fact.statement, "target_id", None))
+    if (old := self._fact_keys.get(fact.id)) != keys:
+      if old is not None:
+        self._unindex(fact.id, *old)
+      self._by_subject.setdefault(keys[0], {})[fact.id] = None
+      if keys[1] is not None:
+        self._by_target.setdefault(keys[1], {})[fact.id] = None
+      self._fact_keys[fact.id] = keys
+    self._seq.setdefault(fact.id, len(self._seq))
     self._facts[fact.id] = fact
+
+  def _unindex(self, fact_id: str, subject_id: str, target_id: str | None) -> None:
+    for index, key in ((self._by_subject, subject_id), (self._by_target, target_id)):
+      if key is not None and (ids := index.get(key)) is not None:
+        ids.pop(fact_id, None)
+        if not ids:
+          del index[key]
 
   def get_fact(self, fact_id: str) -> Fact | None:
     return self._facts.get(fact_id)
 
   def facts(self, subject_id: str | None = None, target_id: str | None = None) -> list[Fact]:
-    return [f for f in self._facts.values()
-            if (subject_id is None or f.subject_id == subject_id)
-            and (target_id is None or getattr(f.statement, "target_id", None) == target_id)]
+    if subject_id is None and target_id is None:
+      return list(self._facts.values())
+    targeted = self._by_target.get(target_id, {}) if target_id is not None else None
+    ids = list(targeted or {}) if subject_id is None else \
+      [i for i in self._by_subject.get(subject_id, {}) if targeted is None or i in targeted]
+    return [self._facts[i] for i in sorted(ids, key=self._seq.__getitem__)]
 
   def put_source(self, source: Source) -> None:
     self._sources[source.id] = source
@@ -64,11 +88,11 @@ class MemoryStore(GraphStore):
   def save(self, path: str | Path) -> None:
     snap = _Snapshot(nodes=self.nodes(), facts=self.facts(), sources=self.sources(),
                      escalations=self.escalations())
-    Path(path).write_text(snap.model_dump_json(indent=2))
+    write_text_atomic(path, snap.model_dump_json(indent=2))
 
   @classmethod
   def load(cls, path: str | Path) -> Self:
-    snap = TypeAdapter(_Snapshot).validate_json(Path(path).read_text())
+    snap = TypeAdapter(_Snapshot).validate_json(read_bytes(path, MAX_SNAPSHOT_BYTES))
     store = cls()
     for n in snap.nodes:
       store.put_node(n)

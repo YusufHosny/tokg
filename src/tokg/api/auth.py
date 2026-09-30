@@ -1,6 +1,7 @@
 # ABOUTME: Bearer-token auth. The token file stores only SHA-256 hashes mapped to principals, so a
 # ABOUTME: leaked tokens file does not leak usable credentials. Roles: member (default) and admin.
 import hashlib
+import hmac
 import secrets
 from pathlib import Path
 from typing import Literal, Self
@@ -9,6 +10,7 @@ import yaml
 from pydantic import BaseModel, Field
 
 Role = Literal["member", "admin"]
+MAX_TOKEN_LENGTH = 256
 
 
 class Principal(BaseModel):
@@ -37,4 +39,11 @@ class TokenRegistry(BaseModel):
     return token
 
   def authenticate(self, token: str) -> Principal | None:
-    return self.tokens.get(hash_token(token))
+    if not token or len(token) > MAX_TOKEN_LENGTH:
+      return None
+    digest = hash_token(token)
+    found = None
+    for known, principal in self.tokens.items():
+      if hmac.compare_digest(known, digest):
+        found = principal
+    return found

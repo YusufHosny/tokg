@@ -1,4 +1,4 @@
-# Human bootstrap for the Lumivia demo: canonical topics, their initial owners (from
+# Human bootstrap for the Foo demo: canonical topics, their initial owners (from
 # ../data/people.json `owns_topics`), org-wide authorities and non-person authors.
 people_file: ../data/people.json
 
@@ -18,10 +18,10 @@ topics:
 
 # Head of Operations signs the work regulations and sends company policy emails
 authorities:
-  - laura.desmet@lumivia.be
+  - laura.desmet@foo.be
 
 non_people:
-  - meeting-bot@lumivia.be
-  - comms@lumivia.be
-  - all@lumivia.be
-  - hiring-managers@lumivia.be
+  - meeting-bot@foo.be
+  - comms@foo.be
+  - all@foo.be
+  - hiring-managers@foo.be

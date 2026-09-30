@@ -2,7 +2,6 @@
 # ABOUTME: markdown with YAML frontmatter whose `kind` picks the variant (meeting, wiki, document, ...).
 import email
 import email.policy
-import json
 from abc import ABC
 from email.message import EmailMessage
 from email.utils import getaddresses, parsedate_to_datetime
@@ -12,8 +11,11 @@ import yaml
 from pydantic import TypeAdapter, ValidationError
 
 from tokg.models import EmailSource, Source, slugify
+from tokg.safeio import load_json, load_yaml, read_bytes, read_text
 
 _SOURCE = TypeAdapter(Source)
+MAX_SOURCE_BYTES = 10 * 1024 * 1024
+MAX_FOLDER_FILES = 10_000
 
 
 class Ingestor(ABC):
@@ -33,25 +35,40 @@ class Ingestor(ABC):
     path = Path(path)
     if not path.is_dir():
       return [self.load_file(path)]
-    files = sorted(p for p in path.rglob("*") if p.suffix in self.suffixes)
-    return [s for p in files if (s := self.parse(p)) is not None]
+    root = path.resolve()
+    found: list[Path] = []
+    for p in path.rglob("*"):
+      if p.suffix in self.suffixes and p.is_file() and p.resolve().is_relative_to(root):
+        found.append(p)
+        if len(found) > MAX_FOLDER_FILES:
+          raise ValueError(f"{path}: more than {MAX_FOLDER_FILES} {'/'.join(self.suffixes)} files")
+    return [s for p in sorted(found) if (s := self.parse(p)) is not None]
 
 
 class EmailIngestor(Ingestor):
   suffixes = (".eml",)
 
   def parse(self, path: Path) -> Source | None:
-    msg = email.message_from_bytes(path.read_bytes(), policy=email.policy.default)
-    assert isinstance(msg, EmailMessage)
+    msg = email.message_from_bytes(read_bytes(path, MAX_SOURCE_BYTES), policy=email.policy.default)
+    if not isinstance(msg, EmailMessage):
+      raise ValueError(f"{path}: not an email message")
+    try:
+      timestamp = parsedate_to_datetime(str(msg["date"]))
+    except (TypeError, ValueError) as e:
+      raise ValueError(f"{path}: missing or invalid Date header") from e
     body = msg.get_body(preferencelist=("plain", "html"))
+    try:
+      content = body.get_content().strip() if body else ""
+    except (LookupError, ValueError) as e:
+      raise ValueError(f"{path}: undecodable body: {e}") from e
     recipients = [f"{n} <{a}>" if n else a
                   for n, a in getaddresses([*msg.get_all("to", []), *msg.get_all("cc", [])])]
     return EmailSource(
       id=f"email:{slugify(path.stem)}",
       title=str(msg.get("subject", path.stem)),
       author=str(msg.get("from", "unknown")),
-      timestamp=parsedate_to_datetime(str(msg["date"])),
-      content=body.get_content().strip() if body else "",
+      timestamp=timestamp,
+      content=content,
       recipients=recipients,
       uri=str(path),
     )
@@ -62,11 +79,18 @@ class MarkdownIngestor(Ingestor):
   suffixes = (".md",)
 
   def parse(self, path: Path) -> Source | None:
-    text = path.read_text()
+    text = read_text(path, MAX_SOURCE_BYTES)
     if not text.startswith("---"):
       return None
-    _, front, body = text.split("---", 2)
-    meta = yaml.safe_load(front) or {}
+    if len(parts := text.split("---", 2)) < 3:
+      raise ValueError(f"{path}: unterminated frontmatter")
+    _, front, body = parts
+    try:
+      meta = load_yaml(front) or {}
+    except (yaml.YAMLError, ValueError) as e:
+      raise ValueError(f"{path}: invalid frontmatter: {e}") from e
+    if not isinstance(meta, dict):
+      raise ValueError(f"{path}: frontmatter must be a mapping")
     if "date" in meta and "timestamp" not in meta:
       meta["timestamp"] = meta.pop("date")
     meta.setdefault("id", f"{meta.get('kind', 'document')}:{slugify(path.stem)}")
@@ -83,7 +107,11 @@ class JsonIngestor(Ingestor):
   suffixes = (".json",)
 
   def parse(self, path: Path) -> Source | None:
-    raw = json.loads(path.read_text())
+    text = read_text(path, MAX_SOURCE_BYTES)
+    try:
+      raw = load_json(text)
+    except ValueError as e:
+      raise ValueError(f"{path}: invalid JSON: {e}") from e
     if not isinstance(raw, dict):
       return None
     doc = dict(raw)
