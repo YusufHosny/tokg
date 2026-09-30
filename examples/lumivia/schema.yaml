@@ -1,0 +1,33 @@
+# tokg schema for the Lumivia NV demo data (examples/data). Mirrors the concepts in
+# examples/schema.py: versioned policies, past cases as examples, people as owners.
+name: lumivia-hr
+description: Internal processes, rules and guidebooks at Lumivia NV (Ghent, 46 employees; payroll by SD Worx), plus past cases that followed them.
+owner_type: Person
+
+entities:
+  - name: Policy
+    description: How something is done or what is allowed at Lumivia - a step-by-step process (e.g. hiring a non-EU citizen), a rule or entitlement (e.g. sick-day certificates), or a guidebook (e.g. how to buy hardware).
+    attributes:
+      - name: summary
+        description: The current answer in 1-3 self-contained sentences - what to do, who does it, key limits and exceptions.
+      - name: steps
+        description: The procedure as numbered steps, one per line.
+  - name: Example
+    description: A concrete past case that followed a policy (a previous hire, a sick-leave report, an equipment order). Its owner is the person who handled it.
+    attributes:
+      - name: summary
+        description: What happened, when, how long it took and the outcome.
+      - name: lessons
+        description: Lessons learned or pitfalls worth knowing for the next case.
+
+relations:
+  - name: example_of
+    description: The example is a past instance of the policy.
+    source: [Example]
+    target: [Policy]
+
+context:
+  - name: country
+    description: ISO 3166 alpha-2 country code where the knowledge applies, e.g. BE. Omit when it applies company-wide.
+  - name: audience
+    description: Who it applies to when it is not everyone, e.g. "non-EU nationals".

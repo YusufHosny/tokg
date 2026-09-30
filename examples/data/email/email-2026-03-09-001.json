@@ -1,0 +1,11 @@
+{
+  "id": "email-2026-03-09-001",
+  "source": "email",
+  "timestamp": "2026-03-09T09:00:00Z",
+  "author": "laura.desmet@lumivia.be",
+  "recipients": [
+    "all@lumivia.be"
+  ],
+  "title": "Change to hardware purchasing (effective 16 March 2026)",
+  "body": "Hi everyone,\n\nFrom 16 March 2026, we are changing how you get equipment for your desk at home or at the office.\n\nWhat changes\n- You can no longer buy monitors, keyboards, headsets or other peripherals yourself and expense them. The €500 Expensify budget for peripherals is stopped.\n- All peripherals must be ordered through the IT procurement portal (Employee Portal > Order equipment).\n- Items are delivered from our standard catalogue, with warranty and asset tracking.\n\nExceptions\nIf you need something that isn't in the catalogue, or you need more than the standard kit, ask Tom Verbeke (IT Asset Manager). Tom is the only person who can approve exceptions. Your line manager cannot approve hardware purchases anymore.\n\nExpensify claims for hardware bought after 16 March will be rejected.\n\nWhy: last year's audit showed many expensed items were lost, bought twice, or bought without recoverable VAT.\n\nThanks,\nLaura De Smet, Head of Operations\nTom Verbeke, IT Asset Manager"
+}

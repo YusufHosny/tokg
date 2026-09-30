@@ -1,0 +1,27 @@
+# Human bootstrap for the Lumivia demo: canonical topics, their initial owners (from
+# ../data/people.json `owns_topics`), org-wide authorities and non-person authors.
+people_file: ../data/people.json
+
+topics:
+  - key: hire_non_eu
+    type: Policy
+    name: Hiring a non-EU citizen in Belgium (single permit)
+    description: How to hire someone who needs a Belgian single permit (combined work and residence permit).
+  - key: sick_leave_certificate
+    type: Policy
+    name: Sick leave and doctor's notes
+    description: When a medical certificate is needed for sick leave, and how to report an absence.
+  - key: hardware_purchasing
+    type: Policy
+    name: Remote office equipment and hardware purchasing
+    description: How employees buy monitors, peripherals and other equipment, and who approves exceptions.
+
+# Head of Operations signs the work regulations and sends company policy emails
+authorities:
+  - laura.desmet@lumivia.be
+
+non_people:
+  - meeting-bot@lumivia.be
+  - comms@lumivia.be
+  - all@lumivia.be
+  - hiring-managers@lumivia.be

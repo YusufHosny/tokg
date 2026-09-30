@@ -1,0 +1,17 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+.venv
+
+# local runtime state
+*.snapshot.json
+tokens.yaml
+.env
+.DS_Store
+node_modules/

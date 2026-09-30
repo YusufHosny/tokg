@@ -1,0 +1,14 @@
+{
+  "id": "meeting-2026-08-20-001",
+  "source": "meeting",
+  "timestamp": "2026-08-20T14:00:00Z",
+  "author": "meeting-bot@lumivia.be",
+  "recipients": [
+    "pieter.janssens@lumivia.be",
+    "lucas.maes@lumivia.be",
+    "nina.wouters@lumivia.be",
+    "ravi.kumar@lumivia.be"
+  ],
+  "title": "Product roadmap sync (AI summary)",
+  "body": "Meeting summary (auto-generated)\nAttendees: Pieter Janssens, Lucas Maes, Nina Wouters, Ravi Kumar\n\nThe team discussed the roadmap for Q4. Priorities are the export feature, performance improvements on large datasets and the redesign of the settings page. Nina presented new mockups, which were well received. Ravi estimated the performance work at three sprints. The team agreed to postpone the mobile view to next year."
+}

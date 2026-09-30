@@ -1,0 +1,11 @@
+{
+  "id": "email-2026-02-10-001",
+  "source": "email",
+  "timestamp": "2026-02-10T14:30:00Z",
+  "author": "lucas.maes@lumivia.be",
+  "recipients": [
+    "all@lumivia.be"
+  ],
+  "title": "Leaving early - doctor appointment",
+  "body": "Hi team, I have a doctor's appointment this afternoon so I'll leave at 15:00. Reachable on Slack until then.\nLucas"
+}

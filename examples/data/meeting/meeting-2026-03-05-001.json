@@ -1,0 +1,13 @@
+{
+  "id": "meeting-2026-03-05-001",
+  "source": "meeting",
+  "timestamp": "2026-03-05T13:00:00Z",
+  "author": "meeting-bot@lumivia.be",
+  "recipients": [
+    "laura.desmet@lumivia.be",
+    "tom.verbeke@lumivia.be",
+    "sophie.claes@lumivia.be"
+  ],
+  "title": "Operations Leadership Weekly (AI summary)",
+  "body": "Meeting summary (auto-generated)\nAttendees: Laura De Smet, Tom Verbeke, Sophie Claes\n\nGeneral\nThe team reviewed the weekly operations dashboard. Office occupancy is stable at around 60%. The cleaning contract renewal is on track. Sophie gave an update on the upcoming performance review cycle and the calibration sessions planned for April. The group discussed the idea of a new plant arrangement for the second floor, which received mixed feedback.\n\nIT & hardware\nTom presented the results of the hardware audit. Out of 112 peripherals expensed in 2025, 41 could not be located in the asset inventory, several were bought twice, and VAT could not be recovered on most consumer purchases. Tom proposed to stop direct expensing of hardware and move all purchases to the internal IT procurement portal, with a standard catalogue.\nDecision: Direct expensing of external hardware is stopped from 16 March 2026. All peripherals must be ordered through the IT procurement portal. Tom Verbeke (IT Asset Manager) is the only person who can approve exceptions or items outside the catalogue. Line managers can no longer approve hardware purchases.\nLaura and Tom will announce this by email next week.\n\nOther\nLaura reminded everyone of the fire drill later this month."
+}
